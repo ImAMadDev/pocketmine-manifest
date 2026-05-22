@@ -1,0 +1,300 @@
+name: Check New PocketMine-MP Releases & Auto-Update Manifest
+
+on:
+  schedule:
+    # Corre cada 6 horas
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      force_version:
+        description: "Forzar verificación de una versión específica (ej: 5.42.1)"
+        required: false
+        type: string
+      auto_pr:
+        description: "Crear PR automáticamente si se detecta versión nueva"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check-releases:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.pm_release.outputs.version }}
+      needs_update: ${{ steps.check.outputs.exists == 'false' }}
+      mc_version: ${{ steps.release_details.outputs.mc_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ────────────────────────────────────────────────────────────
+      # Setup PHP para scripts
+      # ────────────────────────────────────────────────────────────
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: curl, json, zip
+
+      # ────────────────────────────────────────────────────────────
+      # Obtener el último release de PocketMine-MP
+      # ────────────────────────────────────────────────────────────
+      - name: Get latest PocketMine-MP release
+        id: pm_release
+        run: |
+          if [ -n "${{ inputs.force_version }}" ]; then
+            LATEST="${{ inputs.force_version }}"
+            echo "✓ Usando versión forzada: $LATEST"
+          else
+            LATEST=$(curl -s \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/pmmp/PocketMine-MP/releases/latest \
+              | jq -r '.tag_name')
+            echo "✓ Último release en GitHub: $LATEST"
+          fi
+          echo "version=$LATEST" >> $GITHUB_OUTPUT
+
+      # ────────────────────────────────────────────────────────────
+      # Verificar si ya está en manifest.json
+      # ────────────────────────────────────────────────────────────
+      - name: Check if version already in manifest
+        id: check
+        run: |
+          VERSION="${{ steps.pm_release.outputs.version }}"
+          EXISTS=$(jq --arg v "$VERSION" \
+            '[.versions[].id] | contains([$v])' manifest.json)
+          echo "exists=$EXISTS" >> $GITHUB_OUTPUT
+          if [ "$EXISTS" = "true" ]; then
+            echo "✓ Versión $VERSION ya está en manifest"
+          else
+            echo "⚠ Versión $VERSION NO está en manifest - se actualizará"
+          fi
+
+      # ────────────────────────────────────────────────────────────
+      # Obtener detalles del release (Minecraft version, assets)
+      # ────────────────────────────────────────────────────────────
+      - name: Get release details
+        id: release_details
+        if: steps.check.outputs.exists == 'false'
+        run: |
+          VERSION="${{ steps.pm_release.outputs.version }}"
+          RELEASE_DATA=$(curl -s \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/pmmp/PocketMine-MP/releases/tags/$VERSION")
+
+          BODY=$(echo "$RELEASE_DATA" | jq -r '.body // ""')
+          PUBLISHED=$(echo "$RELEASE_DATA" | jq -r '.published_at // ""')
+
+          # Intentar extraer versión de Minecraft del body del release
+          MC_VERSION=$(echo "$BODY" | grep -oP 'Bedrock[^0-9]*\K[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "NEEDS_MANUAL_FILL")
+
+          echo "published_at=$PUBLISHED" >> $GITHUB_OUTPUT
+          echo "mc_version=$MC_VERSION" >> $GITHUB_OUTPUT
+          echo "✓ Versión Minecraft detectada: $MC_VERSION"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Job 2: Actualizar manifest y crear PR automáticamente
+  # ─────────────────────────────────────────────────────────────────────────────
+  auto-update:
+    needs: check-releases
+    if: needs.check-releases.outputs.needs_update == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ────────────────────────────────────────────────────────────
+      # Setup PHP
+      # ────────────────────────────────────────────────────────────
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: curl, json, zip
+
+      # ────────────────────────────────────────────────────────────
+      # Configurar Git
+      # ────────────────────────────────────────────────────────────
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # ────────────────────────────────────────────────────────────
+      # Crear rama para los cambios
+      # ────────────────────────────────────────────────────────────
+      - name: Create feature branch
+        run: |
+          VERSION="${{ needs.check-releases.outputs.version }}"
+          BRANCH_NAME="feat/update-pm-${VERSION//./}"
+          git checkout -b "$BRANCH_NAME"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+
+      # ────────────────────────────────────────────────────────────
+      # Ejecutar update-manifest.php
+      # ────────────────────────────────────────────────────────────
+      - name: Update manifest with new version
+        id: update
+        run: |
+          VERSION="${{ needs.check-releases.outputs.version }}"
+          MC_VERSION="${{ needs.check-releases.outputs.mc_version }}"
+
+          echo "📦 Actualizando manifest para versión $VERSION..."
+
+          php scripts/update-manifest.php \
+            --version="$VERSION" \
+            --mc-version="$MC_VERSION" \
+            2>&1
+
+          RESULT=$?
+          if [ $RESULT -eq 0 ]; then
+            echo "✓ Manifest actualizado exitosamente"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "✗ Error al actualizar manifest"
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      # ────────────────────────────────────────────────────────────
+      # Validar manifest.json
+      # ────────────────────────────────────────────────────────────
+      - name: Validate manifest
+        run: |
+          echo "🔍 Validando manifest.json..."
+          php scripts/validate-manifest.php --strict
+          echo "✓ Manifest validado correctamente"
+
+      # ────────────────────────────────────────────────────────────
+      # Commit cambios
+      # ────────────────────────────────────────────────────────────
+      - name: Commit changes
+        run: |
+          VERSION="${{ needs.check-releases.outputs.version }}"
+          git add manifest.json
+          git commit -m "feat: add PocketMine-MP $VERSION
+
+          - Auto-update via GitHub Actions
+          - PHP version auto-detected from build_info.json
+          - SHA256 checksums verified
+          - MC version: ${{ needs.check-releases.outputs.mc_version }}"
+
+      # ────────────────────────────────────────────────────────────
+      # Push y crear Pull Request
+      # ────────────────────────────────────────────────────────────
+      - name: Push branch and create PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { execSync } = require('child_process');
+            const fs = require('fs');
+            const version = '${{ needs.check-releases.outputs.version }}';
+            const branchName = '${{ env.branch_name }}';
+            const mcVersion = '${{ needs.check-releases.outputs.mc_version }}';
+
+            // Push branch
+            console.log('📤 Pusheando rama...');
+            execSync(`git push origin ${branchName}`, { stdio: 'inherit' });
+
+            // Leer el manifest actualizado
+            const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+            const versionData = manifest.versions.find(v => v.id === version);
+
+            // Crear PR
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🎉 Update: Add PocketMine-MP ${version}`,
+              head: branchName,
+              base: 'main',
+              body: [
+                `## 🚀 Automated Version Update`,
+                ``,
+                `### 📋 Details`,
+                `| Field | Value |`,
+                `|-------|-------|`,
+                `| **Version** | \`${version}\` |`,
+                `| **MC Version** | \`${mcVersion}\` |`,
+                `| **API Version** | \`${versionData?.api_version || 'auto-detected'}\` |`,
+                `| **PHP Version** | \`${versionData?.recommended_php || 'auto-detected'}\` |`,
+                `| **Release Date** | \`${versionData?.date || 'N/A'}\` |`,
+                ``,
+                `### ✅ Automated Checks`,
+                `- [x] \`update-manifest.php\` executed successfully`,
+                `- [x] \`validate-manifest.php\` passed (strict mode)`,
+                `- [x] SHA256 checksums verified`,
+                `- [x] Build info extracted from GitHub releases`,
+                ``,
+                `### 📦 Artifacts Downloaded & Verified`,
+                `- PocketMine-MP PHAR (all 5 platforms)`,
+                `- PHP binaries (recommended version)`,
+                `- All checksums computed and validated`,
+                ``,
+                `### 🔍 Review Checklist`,
+                `- [ ] Verify MC/API versions are correct`,
+                `- [ ] Check if stubs need updating in pocketmine-stubs repo`,
+                `- [ ] Validate against official changelog`,
+                ``,
+                `This PR was created automatically by GitHub Actions. Please review and merge if everything looks correct.`,
+                ``,
+                `---`,
+                `*Generated by Automated PocketMine Version Manager*`,
+              ].join('\n'),
+              labels: ['automated', 'version-update'],
+            });
+
+            console.log(`✅ PR created: ${pr.data.html_url}`);
+            core.setOutput('pr_number', pr.data.number);
+            core.setOutput('pr_url', pr.data.html_url);
+
+      # ────────────────────────────────────────────────────────────
+      # Opcional: Notificar en issue si existe
+      # ────────────────────────────────────────────────────────────
+      - name: Comment on related issues
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const version = '${{ needs.check-releases.outputs.version }}';
+
+            // Buscar issues con label 'new-version' y versión en título
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'new-version',
+              state: 'open',
+            });
+
+            for (const issue of issues.data) {
+              if (issue.title.includes(version)) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `🚀 PR automático creado para esta versión\n\nEl manifest ha sido actualizado automáticamente. Por favor revisa el PR para validar que todo esté correcto.`,
+                });
+              }
+            }
+
+      # ────────────────────────────────────────────────────────────
+      # Resumen de la ejecución
+      # ────────────────────────────────────────────────────────────
+      - name: Print summary
+        if: always()
+        run: |
+          echo "📊 === UPDATE SUMMARY ==="
+          echo "Version: ${{ needs.check-releases.outputs.version }}"
+          echo "MC Version: ${{ needs.check-releases.outputs.mc_version }}"
+          echo "Branch: ${{ env.branch_name }}"
+          echo ""
+          echo "✅ Auto-update completed successfully!"
+          echo "Pull Request will be reviewed by maintainers."

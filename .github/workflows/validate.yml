@@ -1,0 +1,44 @@
+name: Validate manifest.json
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'manifest.json'
+  pull_request:
+    paths:
+      - 'manifest.json'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: json, curl
+
+      - name: Validate JSON syntax
+        run: |
+          php -r "
+            \$data = json_decode(file_get_contents('manifest.json'), true);
+            if (!is_array(\$data)) { echo 'ERROR: JSON inválido'; exit(1); }
+            echo 'OK: JSON válido (' . count(\$data['versions'] ?? []) . ' versiones)';
+          "
+
+      - name: Run validate-manifest.php
+        run: php scripts/validate-manifest.php
+
+      - name: Check for placeholder values
+        run: |
+          if grep -q "NEEDS_SHA256_COMPUTE\|NEEDS_MANUAL_FILL" manifest.json; then
+            echo "::warning::manifest.json contiene valores placeholder sin completar"
+            grep -n "NEEDS_" manifest.json || true
+          else
+            echo "✅ No hay valores placeholder en manifest.json"
+          fi
