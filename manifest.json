@@ -1,5 +1,34 @@
 {
   "manifest_version": 1,
-  "updated_at": "2026-05-22T22:39:25Z",
-  "versions": []
+  "updated_at": "2026-05-22T23:57:03Z",
+  "versions": [
+    {
+      "id": "5.42.0",
+      "api_version": "5.42.0",
+      "release_date": "2026-05-15",
+      "stability": "stable",
+      "minecraft_version": "1.20.80",
+      "min_php": "8.2",
+      "recommended_php": "8.2.latest",
+      "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/tag/5.42.0",
+      "downloads": {
+        "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.0/PocketMine-MP.phar",
+        "pocketmine_phar_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "pocketmine_exe": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.0/PocketMine-MP.exe",
+        "pocketmine_exe_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-latest-Linux-x86_64.tar.gz",
+        "php_linux_x86_64_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-latest-Windows-x86_64.zip",
+        "php_windows_x64_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-latest-MacOS-x86_64.tar.gz",
+        "php_macos_x86_64_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-latest-MacOS-arm64.tar.gz",
+        "php_macos_arm64_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stubs": {
+        "url": "https://github.com/pocketide/pocketmine-stubs/releases/download/5.42.0/stubs.zip",
+        "checksum_sha256": "d41d8cd98f00b204e9800998ecf8427e"
+      }
+    }
+  ]
 }
