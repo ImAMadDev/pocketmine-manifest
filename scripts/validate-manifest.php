@@ -130,8 +130,6 @@ $requiredDownloads = [
     "php_windows_x64_sha256",
     "php_linux_x86_64",
     "php_linux_x86_64_sha256",
-    "php_linux_aarch64",
-    "php_linux_aarch64_sha256",
     "php_macos_x86_64",
     "php_macos_x86_64_sha256",
     "php_macos_arm64",
