@@ -1,31 +1,5 @@
 {
-    "manifest_version": 1,
-    "updated_at": "2026-05-23T00:23:33Z",
-    "versions": [
-        {
-            "id": "5.43.1",
-            "api_version": "5.43.0",
-            "release_date": "2026-05-23",
-            "stability": "stable",
-            "minecraft_version": "1.26.20",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/changelogs/5.43.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "224f32cfaf9e9ec53102db4e3ab8bc1621a3b8c6b445b650aabbeaf79f94cf57",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.43.1/stubs-5.43.1.zip",
-                "checksum_sha256": "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb"
-            }
-        }
-    ]
+  "manifest_version": 1,
+  "updated_at": "2026-05-23T00:23:33Z",
+  "versions": []
 }
