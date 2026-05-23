@@ -192,7 +192,7 @@ jobs:
       - name: Push branch and create PR
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.MANIFEST_BOT_TOKEN }}
           script: |
             const { execSync } = require('child_process');
             const fs = require('fs');
