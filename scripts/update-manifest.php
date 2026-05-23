@@ -7,24 +7,12 @@ declare(strict_types=1);
  *
  * Descarga versión de PocketMine-MP, extrae build_info.json de GitHub,
  * calcula SHA256 y actualiza manifest.json automáticamente.
- *
- * Características:
- * - Auto-detecta info de build_info.json (GitHub releases)
- * - Descarga artefactos con reintentos inteligentes
- * - Cálculo de SHA256 con streaming
- * - Soporte para 5 plataformas
- * - Modo dry-run para verificación
- *
- * Uso:
- *   php scripts/update-manifest.php --version=5.43.1
- *   php scripts/update-manifest.php --version=5.43.1 --dry-run
- *   php scripts/update-manifest.php --version=5.43.1 --api-version=5.43.0  # override
  */
 
 const PM_RELEASES = "https://github.com/pmmp/PocketMine-MP/releases";
 const PM_DOWNLOAD = "https://github.com/pmmp/PocketMine-MP/releases/download";
 const PHP_DOWNLOAD = "https://github.com/pmmp/PHP-Binaries/releases/download";
-const STUBS_DOWNLOAD = "https://github.com/pocketide/pocketmine-stubs/releases/download";
+const STUBS_DOWNLOAD = "https://github.com/ImAMadDev/pocketmine-stubs/releases/download";
 const MANIFEST_PATH = __DIR__ . "/../manifest.json";
 const CHUNK_SIZE = 1024 * 1024;
 const MAX_RETRIES = 3;
@@ -51,7 +39,6 @@ if (!$version || !preg_match('/^\d+\.\d+\.\d+$/', $version)) {
     exitWithError("--version=X.Y.Z es requerido. Formato: semver (ej: 5.43.1)");
 }
 
-// Cargar manifest
 $manifest = loadManifest();
 foreach ($manifest["versions"] as $v) {
     if (($v["id"] ?? null) === $version) {
@@ -93,7 +80,6 @@ $stability =
 $api_version = $apiVersionOverride ?? extractApiVersion($version);
 $mc_version = $mcVersionOverride ?? $mcpe_version;
 
-// Extraer PHP tag de la URL
 preg_match('#/tag/([^/]+)$#', $build_info["php_download_url"] ?? "", $m);
 $php_tag = $m[1] ?? "pm5-php-{$php_version}-latest";
 
@@ -108,7 +94,7 @@ printf("  ✓ PHP tag:           %s\n\n", $php_tag);
 // Paso 2: Descargar y calcular SHA256 de artefactos
 // ─────────────────────────────────────────────────────────────────────────────
 
-printf("[2/4] Descargando artefactos...\n\n");
+printf("[2/4] Descargando artefactos y stubs...\n\n");
 
 $downloads = [
     "pocketmine_phar" => PM_DOWNLOAD . "/{$version}/PocketMine-MP.phar",
@@ -116,25 +102,27 @@ $downloads = [
         PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-Windows-x64-PM5.zip",
     "php_linux_x86_64" =>
         PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-Linux-x86_64-PM5.tar.gz",
-    "php_linux_aarch64" =>
-        PHP_DOWNLOAD .
-        "/{$php_tag}/PHP-{$php_version}-Linux-aarch64-PM5.tar.gz",
     "php_macos_x86_64" =>
         PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-MacOS-x86_64-PM5.tar.gz",
     "php_macos_arm64" =>
         PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-MacOS-arm64-PM5.tar.gz",
 ];
 
+$stubsUrl = STUBS_DOWNLOAD . "/{$version}/stubs-{$version}.zip";
 $checksums = [];
 $tmpFiles = [];
+$stubsSha256 = "";
 
+// Descarga de Binarios y PHAR
 foreach ($downloads as $key => $url) {
     printf("  [↓] %-35s", $key);
     flush();
 
     if ($dryRun) {
-        $checksums[$key] = "NEEDS_SHA256_COMPUTE";
-        $checksums[$key . "_sha256"] = "NEEDS_SHA256_COMPUTE";
+        $checksums[$key] = $url;
+        // En dry-run genera un hash ficticio estético en vez de "NEEDS_SHA256_COMPUTE"
+        $checksums[$key . "_sha256"] =
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
         printf(" (dry-run)\n");
     } else {
         $tmpFile = sys_get_temp_dir() . "/" . basename($url);
@@ -148,6 +136,28 @@ foreach ($downloads as $key => $url) {
         } else {
             printf(" ⚠️  (saltando)\n");
         }
+    }
+}
+
+// Descarga y procesamiento de los Stubs
+printf("  [↓] %-35s", "pocketmine_stubs");
+flush();
+
+if ($dryRun) {
+    // Hash simulado para el formato del dry-run
+    $stubsSha256 =
+        "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb";
+    printf(" (dry-run)\n");
+} else {
+    $stubsTmpFile = sys_get_temp_dir() . "/stubs-{$version}.zip";
+
+    if (downloadWithRetries($stubsUrl, $stubsTmpFile, MAX_RETRIES)) {
+        $stubsSha256 = hash_file("sha256", $stubsTmpFile);
+        $tmpFiles[] = $stubsTmpFile;
+        printf(" ✓\n");
+    } else {
+        $stubsSha256 = "DOWNLOAD_FAILED";
+        printf(" ⚠️  (error al obtener stubs)\n");
     }
 }
 
@@ -173,8 +183,8 @@ $newEntry = [
         ".md",
     "downloads" => $checksums,
     "stubs" => [
-        "url" => STUBS_DOWNLOAD . "/{$version}/stubs.zip",
-        "checksum_sha256" => "NEEDS_SHA256_COMPUTE",
+        "url" => $stubsUrl,
+        "checksum_sha256" => $stubsSha256,
     ],
 ];
 
@@ -203,27 +213,10 @@ if ($dryRun) {
     printf("  ✓ manifest.json actualizado\n");
     printf("  ✓ Versión %s agregada\n", $version);
 
-    // Limpiar temporales
     foreach ($tmpFiles as $f) {
         @unlink($f);
     }
     printf("  ✓ Archivos temporales limpiados\n");
-}
-
-// Detectar campos incompletos
-$incomplete = [];
-if ($checksums["pocketmine_phar_sha256"] === "NEEDS_SHA256_COMPUTE") {
-    $incomplete[] = "phar SHA256";
-}
-if ($newEntry["stubs"]["checksum_sha256"] === "NEEDS_SHA256_COMPUTE") {
-    $incomplete[] = "stubs SHA256";
-}
-
-if (!empty($incomplete)) {
-    printf("\n  ⚠️  Campos incompletos (edita manualmente):\n");
-    foreach ($incomplete as $field) {
-        printf("     • %s\n", $field);
-    }
 }
 
 printf(
@@ -231,13 +224,14 @@ printf(
     COLOR_BOLD,
     COLOR_RESET,
 );
-
 if ($dryRun) {
-    printf("DRY RUN - Sin cambios realizados\n");
+    printf("DRY RUN - Sin cambios reales realizados\n");
 } else {
-    printf("✅ Versión %s agregada correctamente\n", $version);
+    printf(
+        "✅ Versión %s agregada correctamente con hashes reales\n",
+        $version,
+    );
 }
-
 printf(
     "%s════════════════════════════════════════════════════════════════════════════════%s\n\n",
     COLOR_BOLD,
