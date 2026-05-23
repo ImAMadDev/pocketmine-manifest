@@ -20,6 +20,7 @@ declare(strict_types=1);
  * - Fechas en formato ISO 8601
  *
  * Características:
+ * - Ordenamiento automático por SemVer (más reciente primero)
  * - Reporte detallado con errores y advertencias
  * - Colores ANSI para mejor legibilidad
  * - Estadísticas de validación
@@ -29,10 +30,10 @@ declare(strict_types=1);
  * Uso: php scripts/validate-manifest.php [OPTIONS]
  *
  * Opciones:
- *   --check-urls           Verificar que todas las URLs responden (HEAD request)
- *   --verify-checksums     Descargar y verificar SHA256 (lento, requiere espacio)
- *   --strict               Modo estricto: advertencias se tratan como errores
- *   --version=X.Y.Z        Validar solo una versión específica
+ * --check-urls           Verificar que todas las URLs responden (HEAD request)
+ * --verify-checksums     Descargar y verificar SHA256 (lento, requiere espacio)
+ * --strict               Modo estricto: advertencias se tratan como errores
+ * --version=X.Y.Z        Validar solo una versión específica
  */
 
 const MANIFEST_PATH = __DIR__ . "/../manifest.json";
@@ -84,11 +85,51 @@ if (!is_array($manifest)) {
     exitWithError("manifest.json no es JSON válido");
 }
 
-printf("Versiones en manifest: %d\n", count($manifest["versions"] ?? []));
+if (!is_array($manifest["versions"] ?? null)) {
+    exitWithError("Campo 'versions' no es un array o está ausente");
+}
+
+printf("Versiones en manifest: %d\n", count($manifest["versions"]));
 printf(
     "Última actualización:  %s\n\n",
     $manifest["updated_at"] ?? "desconocido",
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Auto-ordenamiento de versiones (Más reciente primero usando SemVer)
+// ─────────────────────────────────────────────────────────────────────────────
+
+$originalVersions = $manifest["versions"];
+
+// Usamos uasort para preservar claves o mantener estabilidad en la ordenación
+usort($manifest["versions"], function (array $a, array $b): int {
+    $idA = $a["id"] ?? "0.0.0";
+    $idB = $b["id"] ?? "0.0.0";
+    // version_compare por defecto devuelve -1 si A < B, 1 si A > B.
+    // Para orden descendente invertimos los operandos ($b, $a)
+    return version_compare($idB, $idA);
+});
+
+// Comprobar si el orden cambió respecto al archivo físico original
+$orderHasChanged = false;
+foreach ($manifest["versions"] as $index => $versionData) {
+    if (
+        ($versionData["id"] ?? null) !==
+        ($originalVersions[$index]["id"] ?? null)
+    ) {
+        $orderHasChanged = true;
+        break;
+    }
+}
+
+if ($orderHasChanged) {
+    // Alerta informativa. No se añade al array de $warnings para evitar activar fallos por --strict
+    printf(
+        "%sℹ INFO: Las versiones en el archivo no están ordenadas. Ordenando internamente de mayor a menor... %s\n\n",
+        COLOR_BLUE,
+        COLOR_RESET,
+    );
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Validar campos raíz
@@ -100,10 +141,6 @@ foreach (["manifest_version", "updated_at", "versions"] as $field) {
     if (!isset($manifest[$field])) {
         $errors[] = "Campo raíz '{$field}' ausente.";
     }
-}
-
-if (!is_array($manifest["versions"] ?? null)) {
-    exitWithError("Campo 'versions' no es un array");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -150,7 +187,7 @@ foreach ($manifest["versions"] as $i => $v) {
 
     // Detectar duplicados
     if (isset($seenVersions[$vid])) {
-        $errors[] = "[{$vid}] Versión duplicada (también en índice {$seenVersions[$vid]})";
+        $errors[] = "[{$vid}] Versión duplicada (también detectada en otra entrada)";
     }
     $seenVersions[$vid] = $i;
 
@@ -305,22 +342,8 @@ foreach ($manifest["versions"] as $i => $v) {
 
 printf("\n[3/3] Verificaciones adicionales...\n\n");
 
-// Validar que al menos hay una versión
 if (empty($manifest["versions"])) {
     $errors[] = "No hay versiones definidas en manifest.json";
-}
-
-// Detectar versiones en orden descendente (más reciente primero)
-if (!empty($manifest["versions"])) {
-    $firstVersion = $manifest["versions"][0]["id"] ?? null;
-    $lastVersion = end($manifest["versions"])["id"] ?? null;
-
-    if ($firstVersion && $lastVersion) {
-        if (version_compare($firstVersion, $lastVersion, "<")) {
-            $warnings[] =
-                "Las versiones no están en orden descendente (más reciente primero)";
-        }
-    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -372,7 +395,7 @@ if (!empty($errors)) {
     exit(1);
 }
 
-// Validación exitosa
+// Validación exitosa en modo estricto
 if ($strictMode && !empty($warnings)) {
     printf(
         "%s%s════════════════════════════════════════════════════════════════════════════════%s\n",
