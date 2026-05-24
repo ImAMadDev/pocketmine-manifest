@@ -1,15 +1,22 @@
 """
 Fetches all releases from a GitHub repository using the GitHub API.
+For each release, executes: php scripts/update-manifest.php --version=X.X.X
+
 Repo: ImAMadDev/pocketmine-stubs
 """
 
 import json
+import os
+import subprocess
 import sys
 import urllib.error
 import urllib.request
 
 OWNER = "ImAMadDev"
 REPO = "pocketmine-stubs"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+UPDATE_SCRIPT = os.path.join(SCRIPT_DIR, "update-manifest.php")
+MANIFEST_PATH = os.path.join(os.path.dirname(SCRIPT_DIR), "manifest.json")
 
 
 def fetch_all_releases(owner: str, repo: str, token: str | None = None) -> list[dict]:
@@ -55,6 +62,58 @@ def fetch_all_releases(owner: str, repo: str, token: str | None = None) -> list[
     return releases
 
 
+def load_manifest():
+    """Cargar manifest.json actual"""
+    if not os.path.exists(MANIFEST_PATH):
+        return {"versions": []}
+
+    try:
+        with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"⚠ No se puede leer manifest.json: {e}")
+        return {"versions": []}
+
+
+def get_existing_versions():
+    """Obtener versiones que ya están en manifest.json"""
+    manifest = load_manifest()
+    return {v.get("id") for v in manifest.get("versions", [])}
+
+
+def run_update_script(version: str) -> bool:
+    """Ejecutar update-manifest.php para una versión"""
+    cmd = ["php", UPDATE_SCRIPT, f"--version={version}"]
+
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=600,  # 10 minutos
+        )
+
+        if result.returncode == 0:
+            return True
+        else:
+            print(
+                f"    ✗ Error: {result.stderr[:100]}"
+                if result.stderr
+                else "    ✗ Error desconocido"
+            )
+            return False
+
+    except subprocess.TimeoutExpired:
+        print(f"    ✗ Timeout (>10 min)")
+        return False
+    except FileNotFoundError:
+        print(f"    ✗ PHP no encontrado o script no existe")
+        return False
+    except Exception as e:
+        print(f"    ✗ Error: {e}")
+        return False
+
+
 def print_releases(releases: list[dict]) -> None:
     if not releases:
         print("No se encontraron releases.")
@@ -82,11 +141,60 @@ def save_json(releases: list[dict], path: str) -> None:
     print(f"✓ Datos guardados en '{path}'")
 
 
+def process_releases(releases: list[dict], skip_existing: bool = True) -> None:
+    """Procesar releases y ejecutar update-manifest.php para cada una"""
+
+    if not os.path.exists(UPDATE_SCRIPT):
+        print(f"\n✗ Script no encontrado: {UPDATE_SCRIPT}")
+        return
+
+    existing = get_existing_versions() if skip_existing else set()
+
+    print(f"\n{'─' * 70}")
+    print(f"📦 Procesando {len(releases)} releases...")
+    print(f"{'─' * 70}\n")
+
+    added = 0
+    skipped = 0
+    failed = 0
+
+    for release in releases:
+        version = release.get("tag_name")
+        if not version:
+            continue
+
+        # Si ya existe y skip_existing es True, saltar
+        if skip_existing and version in existing:
+            skipped += 1
+            continue
+
+        # Ejecutar update-manifest.php
+        print(f"  [{added + failed + 1}] Versión {version}...", end=" ", flush=True)
+
+        if run_update_script(version):
+            print("✓")
+            added += 1
+        else:
+            print("✗")
+            failed += 1
+
+    # Resumen
+    print(f"\n{'─' * 70}")
+    print(f"📊 Resumen:")
+    print(f"  ✓ Agregadas: {added}")
+    if skipped > 0:
+        print(f"  ⊘ Saltadas (ya existen): {skipped}")
+    if failed > 0:
+        print(f"  ✗ Con error: {failed}")
+    print(f"  Total: {added + skipped + failed} de {len(releases)}")
+    print(f"{'─' * 70}\n")
+
+
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Obtiene todos los releases de un repo de GitHub."
+        description="Obtiene todos los releases de un repo de GitHub y ejecuta update-manifest.php para cada uno."
     )
     parser.add_argument("--owner", default=OWNER, help="Dueño del repositorio")
     parser.add_argument("--repo", default=REPO, help="Nombre del repositorio")
@@ -96,6 +204,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output", default=None, help="Guardar resultados en un archivo JSON"
     )
+    parser.add_argument(
+        "--no-skip",
+        action="store_true",
+        help="No saltar versiones existentes (procesar todas)",
+    )
     args = parser.parse_args()
 
     print(f"Obteniendo releases de {args.owner}/{args.repo}...\n")
@@ -104,3 +217,6 @@ if __name__ == "__main__":
 
     if args.output:
         save_json(releases, args.output)
+
+    # Procesar releases y ejecutar update-manifest.php
+    process_releases(releases, skip_existing=not args.no_skip)
