@@ -104,10 +104,10 @@ def run_update_script(version: str) -> bool:
             return False
 
     except subprocess.TimeoutExpired:
-        print(f"    ✗ Timeout (>10 min)")
+        print("    ✗ Timeout (>10 min)")
         return False
     except FileNotFoundError:
-        print(f"    ✗ PHP no encontrado o script no existe")
+        print("    ✗ PHP no encontrado o script no existe")
         return False
     except Exception as e:
         print(f"    ✗ Error: {e}")
@@ -180,7 +180,7 @@ def process_releases(releases: list[dict], skip_existing: bool = True) -> None:
 
     # Resumen
     print(f"\n{'─' * 70}")
-    print(f"📊 Resumen:")
+    print("📊 Resumen:")
     print(f"  ✓ Agregadas: {added}")
     if skipped > 0:
         print(f"  ⊘ Saltadas (ya existen): {skipped}")
