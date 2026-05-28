@@ -1,11 +1,11 @@
 {
     "manifest_version": 1,
-    "updated_at": "2026-05-24T05:46:48Z",
+    "updated_at": "2026-05-28T22:41:53Z",
     "versions": [
         {
             "id": "5.42.1",
             "api_version": "5.42.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.26.10",
             "min_php": "8.2",
@@ -24,13 +24,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.42.1/stubs-5.42.1.zip",
-                "checksum_sha256": "da068d17dc1cd626f69564b367ce50f01c749f995fd3045889812504b66ce279"
+                "checksum_sha256": "faedf895b73d694262e0b0e976411ccbe42a3cc86404f4ea9cd6c9026acbd77c"
             }
         },
         {
             "id": "5.43.1",
             "api_version": "5.43.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.26.20",
             "min_php": "8.2",
@@ -49,186 +49,81 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.43.1/stubs-5.43.1.zip",
-                "checksum_sha256": "db60f3988e9eaa371bf5edbc5d5636ff293a111405cbc3aa0a448251f0539547"
+                "checksum_sha256": "5a680b0bc0dca2eeecdb0637bb96d8a1c0d211f4be6776c1808fbb2853f9b177"
             }
         },
         {
-            "id": "4.0.0",
-            "api_version": "4.0.0",
-            "release_date": "2026-05-24",
-            "stability": "stable",
-            "minecraft_version": "1.18.0",
-            "min_php": "8.0",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.0.0/changelogs/4.0.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.0.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "bed9ce36849a2e576d0206952ce76db93ce359ee9e0223e7adf85fcffc45d7e2",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.0-latest/PHP-8.0-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "cf1c1a769a5a95f6ed745b486108c4a124f621860800ade8059485b7fe253a31",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.0-latest/PHP-8.0-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "22e50d5f19ae728cdea7804990baf1d33946c3acfdcb67c913c4d3d6084c2643",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.0-latest/PHP-8.0-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "a9391db77842f24452605414fe8f47d0be14e9548c976e9ee6c7ebe215aa704d"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.0.0/stubs-4.0.0.zip",
-                "checksum_sha256": "19c74f35736309f869c0805b7b855618b39c80b87fa217a7ab7e3f3e00ed483a"
-            }
-        },
-        {
-            "id": "5.0.0",
-            "api_version": "5.0.0",
-            "release_date": "2026-05-24",
-            "stability": "stable",
-            "minecraft_version": "1.19.80",
-            "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.0.0/changelogs/5.0.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.0.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "7c65d6c6d377adf0e9412f490baf41dad522cfb6b27cbc8ae1b4920973d63c83",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.0.0/stubs-5.0.0.zip",
-                "checksum_sha256": "28ee7cb7940191f0017a89e343996a376ebb99d97175c6020b99651d6dfd4ec5"
-            }
-        },
-        {
-            "id": "5.1.0",
-            "api_version": "5.1.0",
-            "release_date": "2026-05-24",
-            "stability": "stable",
-            "minecraft_version": "1.20.0",
-            "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.1.0/changelogs/5.1.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.1.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "78ce7ebc62893ba15044812fd09a976929c3099558435b6616d02292d30f2786",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.1.0/stubs-5.1.0.zip",
-                "checksum_sha256": "f77793bff7023db3fcb3ec14d327578f7fc95a9d5de954eb64fcc8a287558ff4"
-            }
-        },
-        {
-            "id": "5.2.0",
-            "api_version": "5.2.0",
-            "release_date": "2026-05-24",
-            "stability": "stable",
-            "minecraft_version": "1.20.0",
-            "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.2.0/changelogs/5.2.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.2.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "a4b1fcdefc2455858c5295eb8e98cd49dc7bb0642ca142231bde8622e4e63df0",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.2.0/stubs-5.2.0.zip",
-                "checksum_sha256": "0cd86b02969aa0fa3da9c3fddb074f410ce49f84ecb515f47a036d3afa364715"
-            }
-        },
-        {
-            "id": "5.2.1",
-            "api_version": "5.2.0",
-            "release_date": "2026-05-24",
-            "stability": "stable",
-            "minecraft_version": "1.20.0",
-            "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.2.1/changelogs/5.2.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.2.1/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "e04d906b512a9204ace22a26c68d1a010fa665e7559b53946be6d93a51ef7a2c",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.2.1/stubs-5.2.1.zip",
-                "checksum_sha256": "735f3b42dccd5d2f3dbe49d70b34088d02e44a5413527561d0813b10a81a5d0d"
-            }
-        },
-        {
-            "id": "5.3.0",
-            "api_version": "5.3.0",
-            "release_date": "2026-05-24",
+            "id": "4.23.6",
+            "api_version": "4.23.0",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.3.0/changelogs/5.3.md",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/changelogs/4.23.md",
             "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.3.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "50441ea8ca3c27f75a28ffbdebe46c4ab3cfe686849fc401124825b79172cff2",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "8e1e1b2c4e660df6c9f4526b6b14b990ba191360ea65e47f1abc166068b79026"
             },
             "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.3.0/stubs-5.3.0.zip",
-                "checksum_sha256": "0dc317fb12f96c2731846a18a437891cfdda2b237822ae992c802b64a847baab"
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.23.6/stubs-4.23.6.zip",
+                "checksum_sha256": "54ef8ee619e7478b34c5fea02721eac29a03c341914d9302727af25e7ca5756c"
             }
         },
         {
-            "id": "5.3.1",
-            "api_version": "5.3.0",
-            "release_date": "2026-05-24",
+            "id": "4.24.0",
+            "api_version": "4.24.0",
+            "release_date": "2026-05-28",
             "stability": "stable",
-            "minecraft_version": "1.20.10",
+            "minecraft_version": "1.20.30",
             "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.3.1/changelogs/5.3.md",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/changelogs/4.24.md",
             "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.3.1/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "40a3f82b490d5cda01ddef8718bc7baaec44b443519fb0329ad53b0088e72e70",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "162fffba3f4d3c6b504fac2062a4250a00291dd439c1190f3fa244529d61d827"
             },
             "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.3.1/stubs-5.3.1.zip",
-                "checksum_sha256": "b231416634377b1316d138cf484bf8b1d09d61a9ab0247d21b9322e017a2a76e"
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.24.0/stubs-4.24.0.zip",
+                "checksum_sha256": "d0bb1c4e9c8750c6ab119bae05d72db9a6c8092c81fcd1301c45327ed1a0dc3a"
+            }
+        },
+        {
+            "id": "4.25.0",
+            "api_version": "4.25.0",
+            "release_date": "2026-05-28",
+            "stability": "stable",
+            "minecraft_version": "1.20.40",
+            "min_php": "8.1",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/changelogs/4.25.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "9796973c881a53825dc49334610102d7dfbf864d3dd6bc6add47aac1a49a1c29"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.25.0/stubs-4.25.0.zip",
+                "checksum_sha256": "b8ebfbcbfef8f14e5951d280a48b6ef0737f4d9402fa574c0e293d41333129ed"
+            }
+        },
+        {
+            "id": "4.26.0",
+            "api_version": "4.26.0",
+            "release_date": "2026-05-28",
+            "stability": "stable",
+            "minecraft_version": "1.20.50",
+            "min_php": "8.1",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/changelogs/4.26.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "b179fc35bd9750bdd7c6ce924c5e860bda80b6329763af691224fe17af7753f4"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.26.0/stubs-4.26.0.zip",
+                "checksum_sha256": "a798835741074e20ceeff27d776b2f2e6bccfffd4390d64d0071c7876d50b12d"
             }
         },
         {
             "id": "5.4.4",
             "api_version": "5.4.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
@@ -239,13 +134,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.4.4/stubs-5.4.4.zip",
-                "checksum_sha256": "53f4fd22ace50100d9e0c8c4c2dfba987cadef27a9932f12eeca2ccd506bb318"
+                "checksum_sha256": "b3e3128e898244476498897e54198f71860296c710b2be9b7463c6ba86f6ab28"
             }
         },
         {
             "id": "5.5.0",
             "api_version": "5.5.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
@@ -256,13 +151,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.5.0/stubs-5.5.0.zip",
-                "checksum_sha256": "88dfd681ac2bc70d1d0a1020b270768cd471150127866fb56e9c93c052310105"
+                "checksum_sha256": "0af020728a7795d703ae780ed6e6bba2dc64bb887418afc47685d8816f68ddb9"
             }
         },
         {
             "id": "5.6.1",
             "api_version": "5.6.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.30",
             "min_php": "8.1",
@@ -273,13 +168,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.6.1/stubs-5.6.1.zip",
-                "checksum_sha256": "392ec036966ebd1ecac2d2222d73f6872bdbf68d344e56bc6da64029fe79d929"
+                "checksum_sha256": "0b6cfa3860dff205d15c6658e29d822748cd67464d063655ff045e84006032eb"
             }
         },
         {
             "id": "5.7.1",
             "api_version": "5.7.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.40",
             "min_php": "8.1",
@@ -290,13 +185,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.7.1/stubs-5.7.1.zip",
-                "checksum_sha256": "4eb4b97e65be7e8d34691fa0ec1149fa8c89d8b858b351b1553639d3a0469392"
+                "checksum_sha256": "083e0122bdbe726f4f763f5a1b828b8a524f66cc644104bb7574a12098230ee5"
             }
         },
         {
             "id": "5.8.2",
             "api_version": "5.8.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.40",
             "min_php": "8.1",
@@ -307,13 +202,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.8.2/stubs-5.8.2.zip",
-                "checksum_sha256": "e793baf25f5624c5a613aafb143053d0f95ea00451bb0ff37277cd5c4f64798f"
+                "checksum_sha256": "f2c018a51c81fb2f5555f0e2f764ae7ce3cc6e6641bb55232b30786bee1a23f0"
             }
         },
         {
             "id": "5.9.0",
             "api_version": "5.9.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.50",
             "min_php": "8.1",
@@ -324,13 +219,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.9.0/stubs-5.9.0.zip",
-                "checksum_sha256": "e2ecc98f1a41ae9012bc241c54e9159507fbc711866ccfe8b8a220739e63b03e"
+                "checksum_sha256": "3d1125dd657a17522710b6f6f2cc451e37924d9f7f09fc1b585aef50c8a51581"
             }
         },
         {
             "id": "5.10.0",
             "api_version": "5.10.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.50",
             "min_php": "8.2",
@@ -341,13 +236,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.10.0/stubs-5.10.0.zip",
-                "checksum_sha256": "e5373087ad79f7b84c39157d2e33b802c4e98a5cd3934db7505eeabfbf66ce0a"
+                "checksum_sha256": "65461cb846cd253cd9a669090025495d8c2c777b820238cb088fcb6a80765a6f"
             }
         },
         {
             "id": "5.11.2",
             "api_version": "5.11.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.60",
             "min_php": "8.2",
@@ -358,13 +253,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.11.2/stubs-5.11.2.zip",
-                "checksum_sha256": "2e152b887c3e3608232b9774f77d2c7402481d08887ab9bda0fb25aa2dcb683f"
+                "checksum_sha256": "e89ec6bf2637fc4a82c0971e37bca6fdba9d112819af3030a3c5ae817762228d"
             }
         },
         {
             "id": "5.12.1",
             "api_version": "5.12.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.60",
             "min_php": "8.2",
@@ -375,13 +270,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.12.1/stubs-5.12.1.zip",
-                "checksum_sha256": "146649dcc7322f69bc700fd6571d88b7a552443eb54618b1ef867f42960e07ff"
+                "checksum_sha256": "a4f8f8e872a7bfb614a472a47aa4cb11db7f71cf759620c688120a104c875e3d"
             }
         },
         {
             "id": "5.13.0",
             "api_version": "5.13.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.70",
             "min_php": "8.2",
@@ -392,13 +287,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.13.0/stubs-5.13.0.zip",
-                "checksum_sha256": "25686bfc4c9e88832fad7952af743bd1182407fd60eaffd1e4a5a479bb5e1ce9"
+                "checksum_sha256": "05d618a9647c83ac4d27b5a686bbeb92d9e527d1009bd7ba69d5454f0dfe6229"
             }
         },
         {
             "id": "5.14.1",
             "api_version": "5.14.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.70",
             "min_php": "8.2",
@@ -409,13 +304,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.14.1/stubs-5.14.1.zip",
-                "checksum_sha256": "2b8bd64aa1291a81fb17f05cd8f30dbdd6cb1c3fa402f95c1c41804c1c97f244"
+                "checksum_sha256": "ddd6ee0eb75263e2777d508d5c76484ed7afa1650550a33d789a6f31623aab25"
             }
         },
         {
             "id": "5.15.0",
             "api_version": "5.15.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.20.80",
             "min_php": "8.2",
@@ -426,13 +321,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.15.0/stubs-5.15.0.zip",
-                "checksum_sha256": "706b56cb6fb36965dd84f1d3d1618d72e6c0279cc339fbb656d89cdd5c006a53"
+                "checksum_sha256": "13c7d44b9b5a74fc96283cce8acb590ab56772ce95e32f9bd23e6af65a8002fc"
             }
         },
         {
             "id": "5.16.0",
             "api_version": "5.16.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.0",
             "min_php": "8.2",
@@ -443,13 +338,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.16.0/stubs-5.16.0.zip",
-                "checksum_sha256": "c28fa9a8cd4e6dc97ddea205b6b38458bc7bf3d5e486790eae17070b9b3245b9"
+                "checksum_sha256": "6f848d786a94104fea70e0b65e328bfc41e8615bd99cfc8d7584b4a7b4c27e6b"
             }
         },
         {
             "id": "5.17.1",
             "api_version": "5.17.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.2",
             "min_php": "8.2",
@@ -460,13 +355,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.17.1/stubs-5.17.1.zip",
-                "checksum_sha256": "d4f0c9f6e9a6cd8d134b7c1d731572481a5895c8be4d09134d1d4bf112d37df8"
+                "checksum_sha256": "6aaf241b19cf024f54686b75715d7b15fc126153a56e4174838d8f2fa30d3bf2"
             }
         },
         {
             "id": "5.18.1",
             "api_version": "5.18.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.20",
             "min_php": "8.2",
@@ -477,13 +372,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.18.1/stubs-5.18.1.zip",
-                "checksum_sha256": "dfb28bcb042963bf316fd3c995ddc5e67506a68e4a2cc9cb98b1336c5706051e"
+                "checksum_sha256": "d3e708396e0ebb93add7f4453e1a5449716fdd9c198315438c8acd9c657f484a"
             }
         },
         {
             "id": "5.19.0",
             "api_version": "5.19.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.30",
             "min_php": "8.2",
@@ -494,13 +389,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.19.0/stubs-5.19.0.zip",
-                "checksum_sha256": "984607b3bafe392969c7fe808c1bc61ddd2eac97d2b52bc495fa04e25f68c3ea"
+                "checksum_sha256": "43a998d6d7c7f4c48ab03d418d21766c0ea927d1e54c10884de9121bcb0e45bc"
             }
         },
         {
             "id": "5.20.1",
             "api_version": "5.20.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.40",
             "min_php": "8.2",
@@ -511,13 +406,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.20.1/stubs-5.20.1.zip",
-                "checksum_sha256": "feb79237c87d34189e8dd806e647470d4976edb2f68099200b4e999fd65c97cb"
+                "checksum_sha256": "f036182f021c2edd2cb52152861842130775dcee32339eda8ecca5d0a376a5b5"
             }
         },
         {
             "id": "5.21.2",
             "api_version": "5.21.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.40",
             "min_php": "8.2",
@@ -536,13 +431,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.21.2/stubs-5.21.2.zip",
-                "checksum_sha256": "fe046b1090fa78bf24c3680525ffdafc262960cc280573a3826b526f7274c018"
+                "checksum_sha256": "298d69da7b5d81d852cbe885c363f850f0bdd646dd3b5b8b83dea358eaf94c09"
             }
         },
         {
             "id": "5.22.0",
             "api_version": "5.22.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
@@ -561,13 +456,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.22.0/stubs-5.22.0.zip",
-                "checksum_sha256": "99341a08e76a8915f6c20b3010551cbd65ad6e015a6e01b03f077ee2e961e5f7"
+                "checksum_sha256": "16c9826dd399603c89e026a95f1f81ec635e5f7be44837ffb5234e2925050c26"
             }
         },
         {
             "id": "5.23.3",
             "api_version": "5.23.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
@@ -586,13 +481,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.23.3/stubs-5.23.3.zip",
-                "checksum_sha256": "c599524711c459113ee97ad11ac0d881cb8e62f4a686328c6c3252a9dcc967e6"
+                "checksum_sha256": "bcb9e955393ab8ce77716c78c138cc5029d0b39f85ea989a79a753fa4a76c58c"
             }
         },
         {
             "id": "5.24.0",
             "api_version": "5.24.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
@@ -611,13 +506,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.24.0/stubs-5.24.0.zip",
-                "checksum_sha256": "0e8935da42555345afe8c91e30fcc97421229f7837acc002e7e376bbe9416011"
+                "checksum_sha256": "22fc53bbcb2de891862827c01d9f4e124c889ef23bb426b5701f54ce5e2f7530"
             }
         },
         {
             "id": "5.25.2",
             "api_version": "5.25.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.60",
             "min_php": "8.2",
@@ -636,13 +531,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.25.2/stubs-5.25.2.zip",
-                "checksum_sha256": "f64d23740f5f515cfed5759d752f76f32aaf76755114db548e505b90f05a7d92"
+                "checksum_sha256": "937b4eda420ed3acb6843241ea00be805d010db3e566f0e3fc3a5afdd0117b99"
             }
         },
         {
             "id": "5.26.0",
             "api_version": "5.26.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.60",
             "min_php": "8.2",
@@ -661,13 +556,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.26.0/stubs-5.26.0.zip",
-                "checksum_sha256": "5989e8766fb1d4c5caa8cf16f7e5613c452fbefef0b57fe9bd26ffddefbafe2b"
+                "checksum_sha256": "06415f970fecfae7727ba45f5a04d959b1d13f5b73864469ae1c51dd04d8cd65"
             }
         },
         {
             "id": "5.27.1",
             "api_version": "5.27.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.70",
             "min_php": "8.2",
@@ -686,13 +581,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.27.1/stubs-5.27.1.zip",
-                "checksum_sha256": "7fe22d2828fc6cbb89bccf31364d3fe1e4c79857e242b75a82ba6c9dbe115f05"
+                "checksum_sha256": "93e21a0b0c3741723db29a736a9011f16ce52466e690596e106ed884ccd3647f"
             }
         },
         {
             "id": "5.28.2",
             "api_version": "5.28.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.80",
             "min_php": "8.2",
@@ -711,13 +606,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.28.2/stubs-5.28.2.zip",
-                "checksum_sha256": "0884804b1c7a918c0d0011cd1ea12ce9c2c09a806cf44b73bb5ad6fc62fa69fe"
+                "checksum_sha256": "26f04d1fce2ef068095f41ba2181e5282a4477c4020d1884d8f6003c5bfc164f"
             }
         },
         {
             "id": "5.29.0",
             "api_version": "5.29.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.90",
             "min_php": "8.2",
@@ -736,13 +631,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.29.0/stubs-5.29.0.zip",
-                "checksum_sha256": "31db5c9c93c4c84a9c6114c0e7b5a81edbf7d6dab7186d5a48c4f107d78b83a2"
+                "checksum_sha256": "df8e669ec80b9909668596f434a04f93f4e638786cb0b41c02e6844e73ce1d2c"
             }
         },
         {
             "id": "5.30.1",
             "api_version": "5.30.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.90",
             "min_php": "8.2",
@@ -761,13 +656,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.30.1/stubs-5.30.1.zip",
-                "checksum_sha256": "a554b8f1896cd1fc22c4959f79239539c2ab44d56d88d5a49949fceb34b0562d"
+                "checksum_sha256": "c0b1b4ca2f3473f252747c4e5e66d6b959f7f405786b69e2dfcb82f0687dfad8"
             }
         },
         {
             "id": "5.31.0",
             "api_version": "5.31.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.93",
             "min_php": "8.2",
@@ -786,13 +681,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.31.0/stubs-5.31.0.zip",
-                "checksum_sha256": "815ec9c1d5da42d86ce9cea0e7bae29e3e0e2c96153cbcf393ba7de6cd14f8f8"
+                "checksum_sha256": "03645d41208791de3299c69137c9ff80d7c0d3206574f0aa3ea26abe1f286390"
             }
         },
         {
             "id": "5.32.1",
             "api_version": "5.32.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
@@ -811,13 +706,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.32.1/stubs-5.32.1.zip",
-                "checksum_sha256": "9c65eacca48761746725df0581d4b33126c36ebe4f6344841c558ca7e5197ec9"
+                "checksum_sha256": "08d640acb27e73be19ec0888f3a6d7be93a27f1453f44cbc3ec4a35678c24d3a"
             }
         },
         {
             "id": "5.33.2",
             "api_version": "5.33.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
@@ -836,13 +731,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.33.2/stubs-5.33.2.zip",
-                "checksum_sha256": "008f84adc6c363dca6f6db9316ebf29af3a871bd69efcfe10c336e3e1f511a25"
+                "checksum_sha256": "c4e9d667bf4cc3ca5c0f1c05e9bc9999e3acec27ee4c6a2c7bd3e24abd22b6a4"
             }
         },
         {
             "id": "5.34.1",
             "api_version": "5.34.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
@@ -861,13 +756,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.34.1/stubs-5.34.1.zip",
-                "checksum_sha256": "b59d6dd76e8f95ceaa684abe5571c688c52934d2d0a6ccab40fa5fd8d8ce0923"
+                "checksum_sha256": "d65e5430ecc0ab14f84c7820835ca1dad61651191efb619e6ac1d78c683a1e4e"
             }
         },
         {
             "id": "5.35.1",
             "api_version": "5.35.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.111",
             "min_php": "8.2",
@@ -886,13 +781,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.35.1/stubs-5.35.1.zip",
-                "checksum_sha256": "2b1511d53f61934dd6ec4ec27de45a5f63f8e32011cf9a1d855e8b9d3451cdce"
+                "checksum_sha256": "3fb3c4181e722876b3757449eea346262510d8fa409c0b2df2df1318cea81405"
             }
         },
         {
             "id": "5.36.0",
             "api_version": "5.36.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.111",
             "min_php": "8.2",
@@ -911,13 +806,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.36.0/stubs-5.36.0.zip",
-                "checksum_sha256": "bd41c4d211576692eb3ed4f7bd86175eb664093fdafcfc85f5cc33eb146a8fc9"
+                "checksum_sha256": "f5dd77da71dd9930675bc7c25aa276e0b12c2be8a9ecb57bc3873164cd0ae755"
             }
         },
         {
             "id": "5.37.3",
             "api_version": "5.37.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.124",
             "min_php": "8.2",
@@ -936,13 +831,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.37.3/stubs-5.37.3.zip",
-                "checksum_sha256": "e8c3b16cb0dd875db6a96e7f101558ec52d22118f43e6031a2935d3de097032b"
+                "checksum_sha256": "ec48b5d22266eba2c5f878c39115c118b8419ed831e5be72511e82b4e0070bd8"
             }
         },
         {
             "id": "5.38.0",
             "api_version": "5.38.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.130",
             "min_php": "8.2",
@@ -961,13 +856,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.38.0/stubs-5.38.0.zip",
-                "checksum_sha256": "f8f830e7c8164eb6b0a42f5e60b2ee4d34445c167408d7370438dab7d84ccc75"
+                "checksum_sha256": "22a018a818729296d55bc866c84359630e62a12e05db6ea216c82fe50c231c22"
             }
         },
         {
             "id": "5.39.3",
             "api_version": "5.39.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.21.130",
             "min_php": "8.2",
@@ -986,13 +881,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.39.3/stubs-5.39.3.zip",
-                "checksum_sha256": "e3c50643e9f94582e5b16a6c7630152ed30f8f983c02de5dad044b2944c26708"
+                "checksum_sha256": "04a8b233a54619b486ade6028d8a1da14836c6f33d98bb1ff5059851410f0bd5"
             }
         },
         {
             "id": "5.40.0",
             "api_version": "5.40.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.26.0",
             "min_php": "8.2",
@@ -1011,13 +906,13 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.40.0/stubs-5.40.0.zip",
-                "checksum_sha256": "2c3c0d20959f295e2768a3b266ba26172f6f38ed2a6deea6c9b676efa77da51b"
+                "checksum_sha256": "e89eed571f2d297e44decca2eb93b37cf5e857ee608135836165d60f1107a3c8"
             }
         },
         {
             "id": "5.41.1",
             "api_version": "5.41.0",
-            "release_date": "2026-05-24",
+            "release_date": "2026-05-28",
             "stability": "stable",
             "minecraft_version": "1.26.0",
             "min_php": "8.2",
@@ -1036,7 +931,7 @@
             },
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.41.1/stubs-5.41.1.zip",
-                "checksum_sha256": "86b34bd8136842cfe63b6dad58b14b237d56fb693af7c57cbaaf8d097e1a8793"
+                "checksum_sha256": "94ab70f2a65eb15ca1f14f1d66dc71882bef3e053839e860348fdecaef6f2cea"
             }
         }
     ]
