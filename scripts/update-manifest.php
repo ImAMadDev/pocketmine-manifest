@@ -34,17 +34,24 @@ $version = $args["version"] ?? null;
 $dryRun = isset($args["dry-run"]);
 $apiVersionOverride = $args["api-version"] ?? null;
 $mcVersionOverride = $args["mc-version"] ?? null;
+$force = isset($args["f"]);
 
 if (!$version || !preg_match('/^\d+\.\d+\.\d+$/', $version)) {
     exitWithError("--version=X.Y.Z es requerido. Formato: semver (ej: 5.43.1)");
 }
 
 $manifest = loadManifest();
-foreach ($manifest["versions"] as $v) {
+foreach ($manifest["versions"] as $key => $v) {
     if (($v["id"] ?? null) === $version) {
-        exitWithError("Versión {$version} ya existe en manifest.json");
+        if (!$force) {
+            exitWithError("Versión {$version} ya existe en manifest.json");
+        } else {
+            printf("  ⚠️  Saltando versión {$version} (ya existe, pero forzando)\n");
+            unset($manifest["versions"][$key]);
+        }
     }
 }
+$manifest["versions"] = array_values($manifest["versions"]);
 
 printf(
     "\n%s════════════════════════════════════════════════════════════════════════════════%s\n",
@@ -83,6 +90,10 @@ $mc_version = $mcVersionOverride ?? $mcpe_version;
 preg_match('#/tag/([^/]+)$#', $build_info["php_download_url"] ?? "", $m);
 $php_tag = $m[1] ?? "pm5-php-{$php_version}-latest";
 
+if (!str_starts_with($php_tag, "pm5-")) {
+    $php_tag = "pm5-" . $php_tag;
+}
+
 printf("  ✓ Versión:           %s\n", $version);
 printf("  ✓ API version:       %s\n", $api_version);
 printf("  ✓ Minecraft:         %s\n", $mc_version);
@@ -96,16 +107,18 @@ printf("  ✓ PHP tag:           %s\n\n", $php_tag);
 
 printf("[2/4] Descargando artefactos y stubs...\n\n");
 
+$php_file_prefix = str_starts_with($php_tag, "pm5-") ? "PHP-{$php_version}" : "PHP";
+
 $downloads = [
     "pocketmine_phar" => PM_DOWNLOAD . "/{$version}/PocketMine-MP.phar",
     "php_windows_x64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-Windows-x64-PM5.zip",
+        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-Windows-x64-PM5.zip",
     "php_linux_x86_64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-Linux-x86_64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-Linux-x86_64-PM5.tar.gz",
     "php_macos_x86_64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-MacOS-x86_64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-MacOS-x86_64-PM5.tar.gz",
     "php_macos_arm64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/PHP-{$php_version}-MacOS-arm64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-MacOS-arm64-PM5.tar.gz",
 ];
 
 $stubsUrl = STUBS_DOWNLOAD . "/{$version}/stubs-{$version}.zip";
@@ -199,16 +212,51 @@ printf("  ✓ Entrada creada\n\n");
 
 printf("[4/4] Finalizando...\n\n");
 
-$json =
-    json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
-
 if ($dryRun) {
+    $json =
+        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
     printf("  [DRY RUN] JSON resultante:\n\n");
     echo $json;
 } else {
-    if (!file_put_contents(MANIFEST_PATH, $json)) {
+    $lockFile = fopen(MANIFEST_PATH, "r+");
+    if (!$lockFile) {
+        exitWithError("No se pudo abrir manifest.json para bloqueo");
+    }
+    if (!flock($lockFile, LOCK_EX)) {
+        fclose($lockFile);
+        exitWithError("No se pudo adquirir el bloqueo sobre manifest.json");
+    }
+
+    $content = stream_get_contents($lockFile);
+    $manifest = json_decode($content, true);
+    if (!is_array($manifest)) {
+        $manifest = ["manifest_version" => 1, "versions" => []];
+    }
+
+    // Remover versión existente si la hay (ya que estamos forzando)
+    foreach ($manifest["versions"] as $key => $v) {
+        if (($v["id"] ?? null) === $version) {
+            unset($manifest["versions"][$key]);
+        }
+    }
+    $manifest["versions"] = array_values($manifest["versions"]);
+
+    // Agregar la nueva versión al principio
+    array_unshift($manifest["versions"], $newEntry);
+    $manifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
+
+    $json = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
+
+    ftruncate($lockFile, 0);
+    rewind($lockFile);
+    if (fwrite($lockFile, $json) === false) {
+        flock($lockFile, LOCK_UN);
+        fclose($lockFile);
         exitWithError("No se pudo escribir manifest.json");
     }
+
+    flock($lockFile, LOCK_UN);
+    fclose($lockFile);
 
     printf("  ✓ manifest.json actualizado\n");
     printf("  ✓ Versión %s agregada\n", $version);

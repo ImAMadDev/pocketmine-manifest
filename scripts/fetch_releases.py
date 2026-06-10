@@ -5,6 +5,7 @@ For each release, executes: php scripts/update-manifest.php --version=X.X.X
 Repo: ImAMadDev/pocketmine-stubs
 """
 
+import concurrent.futures
 import json
 import os
 import subprocess
@@ -83,6 +84,7 @@ def get_existing_versions():
 
 def run_update_script(version: str) -> bool:
     """Ejecutar update-manifest.php para una versión"""
+    print(f"  [↓] Iniciando versión {version}...", flush=True)
     cmd = ["php", UPDATE_SCRIPT, f"--version={version}"]
 
     try:
@@ -141,8 +143,8 @@ def save_json(releases: list[dict], path: str) -> None:
     print(f"✓ Datos guardados en '{path}'")
 
 
-def process_releases(releases: list[dict], skip_existing: bool = True) -> None:
-    """Procesar releases y ejecutar update-manifest.php para cada una"""
+def process_releases(releases: list[dict], skip_existing: bool = True, max_workers: int = 4) -> None:
+    """Procesar releases en paralelo y ejecutar update-manifest.php para cada una"""
 
     if not os.path.exists(UPDATE_SCRIPT):
         print(f"\n✗ Script no encontrado: {UPDATE_SCRIPT}")
@@ -150,33 +152,50 @@ def process_releases(releases: list[dict], skip_existing: bool = True) -> None:
 
     existing = get_existing_versions() if skip_existing else set()
 
-    print(f"\n{'─' * 70}")
-    print(f"📦 Procesando {len(releases)} releases...")
-    print(f"{'─' * 70}\n")
-
-    added = 0
+    # Filtrar versiones a procesar
+    versions_to_process = []
     skipped = 0
-    failed = 0
-
     for release in releases:
         version = release.get("tag_name")
         if not version:
             continue
-
-        # Si ya existe y skip_existing es True, saltar
         if skip_existing and version in existing:
             skipped += 1
             continue
+        versions_to_process.append(version)
 
-        # Ejecutar update-manifest.php
-        print(f"  [{added + failed + 1}] Versión {version}...", end=" ", flush=True)
+    print(f"\n{'─' * 70}")
+    print(f"📦 Procesando {len(versions_to_process)} releases (Concurrencia: {max_workers})...")
+    if skipped > 0:
+        print(f"  ⊘ Saltadas (ya existen): {skipped}")
+    print(f"{'─' * 70}\n")
 
-        if run_update_script(version):
-            print("✓")
-            added += 1
-        else:
-            print("✗")
-            failed += 1
+    added = 0
+    failed = 0
+    completed = 0
+    total = len(versions_to_process)
+
+    if not versions_to_process:
+        print("No hay versiones nuevas para procesar.")
+        return
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_version = {executor.submit(run_update_script, v): v for v in versions_to_process}
+        
+        for future in concurrent.futures.as_completed(future_to_version):
+            version = future_to_version[future]
+            completed += 1
+            try:
+                success = future.result()
+                if success:
+                    print(f"  ✓ [{completed}/{total}] Versión {version} procesada correctamente", flush=True)
+                    added += 1
+                else:
+                    print(f"  ✗ [{completed}/{total}] Versión {version} falló al procesar", flush=True)
+                    failed += 1
+            except Exception as e:
+                print(f"  ✗ [{completed}/{total}] Versión {version} lanzó excepción: {e}", flush=True)
+                failed += 1
 
     # Resumen
     print(f"\n{'─' * 70}")
@@ -209,6 +228,12 @@ if __name__ == "__main__":
         action="store_true",
         help="No saltar versiones existentes (procesar todas)",
     )
+    parser.add_argument(
+        "--threads",
+        type=int,
+        default=4,
+        help="Número de hilos para procesamiento paralelo (default: 4)",
+    )
     args = parser.parse_args()
 
     print(f"Obteniendo releases de {args.owner}/{args.repo}...\n")
@@ -219,4 +244,4 @@ if __name__ == "__main__":
         save_json(releases, args.output)
 
     # Procesar releases y ejecutar update-manifest.php
-    process_releases(releases, skip_existing=not args.no_skip)
+    process_releases(releases, skip_existing=not args.no_skip, max_workers=args.threads)
