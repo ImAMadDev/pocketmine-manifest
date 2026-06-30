@@ -46,7 +46,9 @@ foreach ($manifest["versions"] as $key => $v) {
         if (!$force) {
             exitWithError("Versión {$version} ya existe en manifest.json");
         } else {
-            printf("  ⚠️  Saltando versión {$version} (ya existe, pero forzando)\n");
+            printf(
+                "  ⚠️  Saltando versión {$version} (ya existe, pero forzando)\n",
+            );
             unset($manifest["versions"][$key]);
         }
     }
@@ -107,7 +109,9 @@ printf("  ✓ PHP tag:           %s\n\n", $php_tag);
 
 printf("[2/4] Descargando artefactos y stubs...\n\n");
 
-$php_file_prefix = str_starts_with($php_tag, "pm5-") ? "PHP-{$php_version}" : "PHP";
+$php_file_prefix = str_starts_with($php_tag, "pm5-")
+    ? "PHP-{$php_version}"
+    : "PHP";
 
 $downloads = [
     "pocketmine_phar" => PM_DOWNLOAD . "/{$version}/PocketMine-MP.phar",
@@ -138,7 +142,7 @@ foreach ($downloads as $key => $url) {
             "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
         printf(" (dry-run)\n");
     } else {
-        $tmpFile = sys_get_temp_dir() . "/" . basename($url);
+        $tmpFile = sys_get_temp_dir() . "/pm_{$version}_" . basename($url);
 
         if (downloadWithRetries($url, $tmpFile, MAX_RETRIES)) {
             $sha256 = hash_file("sha256", $tmpFile);
@@ -214,7 +218,8 @@ printf("[4/4] Finalizando...\n\n");
 
 if ($dryRun) {
     $json =
-        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
+        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
+        "\n";
     printf("  [DRY RUN] JSON resultante:\n\n");
     echo $json;
 } else {
@@ -245,7 +250,9 @@ if ($dryRun) {
     array_unshift($manifest["versions"], $newEntry);
     $manifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
 
-    $json = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
+    $json =
+        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
+        "\n";
 
     ftruncate($lockFile, 0);
     rewind($lockFile);
