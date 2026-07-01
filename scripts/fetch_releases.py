@@ -143,8 +143,12 @@ def save_json(releases: list[dict], path: str) -> None:
     print(f"✓ Datos guardados en '{path}'")
 
 
-def process_releases(releases: list[dict], skip_existing: bool = True, max_workers: int = 4) -> None:
-    """Procesar releases en paralelo y ejecutar update-manifest.php para cada una"""
+def process_releases(releases: list[dict], skip_existing: bool = True, max_workers: int = 1) -> None:
+    """Procesar releases y ejecutar update-manifest.php para cada una.
+    
+    NOTA: Por defecto usa max_workers=1 (secuencial) para evitar race conditions
+    al escribir manifest.json. Usar --parallel para habilitar concurrencia.
+    """
 
     if not os.path.exists(UPDATE_SCRIPT):
         print(f"\n✗ Script no encontrado: {UPDATE_SCRIPT}")
@@ -165,7 +169,10 @@ def process_releases(releases: list[dict], skip_existing: bool = True, max_worke
         versions_to_process.append(version)
 
     print(f"\n{'─' * 70}")
-    print(f"📦 Procesando {len(versions_to_process)} releases (Concurrencia: {max_workers})...")
+    mode = "Secuencial" if max_workers == 1 else f"Paralelo ({max_workers} hilos)"
+    print(f"📦 Procesando {len(versions_to_process)} releases ({mode})...")
+    if max_workers > 1:
+        print(f"  ⚠ Modo paralelo: posibles race conditions en manifest.json")
     if skipped > 0:
         print(f"  ⊘ Saltadas (ya existen): {skipped}")
     print(f"{'─' * 70}\n")
@@ -231,8 +238,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--threads",
         type=int,
-        default=4,
-        help="Número de hilos para procesamiento paralelo (default: 4)",
+        default=1,
+        help="Número de hilos para procesamiento (default: 1 = secuencial)",
+    )
+    parser.add_argument(
+        "--parallel",
+        action="store_true",
+        help="Habilitar procesamiento paralelo (4 hilos). ⚠ Puede causar race conditions.",
     )
     args = parser.parse_args()
 
@@ -243,5 +255,10 @@ if __name__ == "__main__":
     if args.output:
         save_json(releases, args.output)
 
+    # Determinar número de workers
+    workers = args.threads
+    if args.parallel and workers == 1:
+        workers = 4
+
     # Procesar releases y ejecutar update-manifest.php
-    process_releases(releases, skip_existing=not args.no_skip, max_workers=args.threads)
+    process_releases(releases, skip_existing=not args.no_skip, max_workers=workers)

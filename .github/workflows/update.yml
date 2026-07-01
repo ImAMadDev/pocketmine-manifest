@@ -197,7 +197,7 @@ jobs:
             const { execSync } = require('child_process');
             const fs = require('fs');
             const version = '${{ needs.check-releases.outputs.version }}';
-            const branchName = '${{ env.branch_name }}';
+            const branchName = process.env.branch_name;
             const mcVersion = '${{ needs.check-releases.outputs.mc_version }}';
 
             // Push branch
@@ -294,7 +294,7 @@ jobs:
           echo "📊 === UPDATE SUMMARY ==="
           echo "Version: ${{ needs.check-releases.outputs.version }}"
           echo "MC Version: ${{ needs.check-releases.outputs.mc_version }}"
-          echo "Branch: ${{ env.branch_name }}"
+          echo "Branch: $branch_name"
           echo ""
           echo "✅ Auto-update completed successfully!"
           echo "Pull Request will be reviewed by maintainers."

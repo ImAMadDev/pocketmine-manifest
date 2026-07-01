@@ -7,7 +7,7 @@ que el IDE consulta al arrancar para saber qué versiones de PocketMine-MP está
 disponibles, con sus URLs de descarga y checksums verificados.
 
 ```
-https://raw.githubusercontent.com/pocketide/pocketmine-manifest/main/manifest.json
+https://raw.githubusercontent.com/ImAMadDev/pocketmine-manifest/main/manifest.json
 ```
 
 ---
@@ -28,19 +28,6 @@ https://raw.githubusercontent.com/pocketide/pocketmine-manifest/main/manifest.js
 
 **Antes**: Detección manual + actualización manual + PR manual (~15 minutos)  
 **Ahora**: Todo automático (~2-3 minutos)
-
-📖 **Lee primero:** [`QUICK_START.md`](./QUICK_START.md) para empezar en 5 minutos
-
----
-
-## 📚 Documentación de Automatización
-
-| Documento | Descripción |
-|-----------|-------------|
-| **[`QUICK_START.md`](./QUICK_START.md)** | 🚀 Comienza aquí — Setup en 5 min |
-| **[`GITHUB_ACTIONS_SETUP.md`](./GITHUB_ACTIONS_SETUP.md)** | 🔧 Configuración detallada del workflow |
-| **[`AUTOMATION_SUMMARY.md`](./AUTOMATION_SUMMARY.md)** | 📊 Resumen de cambios realizados |
-| **[`WORKFLOW_VISUAL_GUIDE.md`](./WORKFLOW_VISUAL_GUIDE.md)** | 🎯 Diagrama visual del flujo |
 
 ---
 
@@ -173,7 +160,7 @@ De aquí se extrae automáticamente:
         // ... más plataformas
       },
       "stubs": {
-        "url": "https://github.com/pocketide/pocketmine-stubs/releases/download/5.43.1/stubs.zip",
+        "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.43.1/stubs.zip",
         "checksum_sha256": "jkl012..."
       }
     }
@@ -274,26 +261,16 @@ De aquí se extrae automáticamente:
 
 # O prueba manualmente:
 # GitHub → Actions → Run workflow → force_version=5.43.1
-```
+``` 
 
 ---
 
-## 📖 Documentación Completa
-
-📘 **Para comenzar rápido**: [`QUICK_START.md`](./QUICK_START.md)  
-📗 **Para entender el workflow**: [`WORKFLOW_VISUAL_GUIDE.md`](./WORKFLOW_VISUAL_GUIDE.md)  
-📙 **Para configuración avanzada**: [`GITHUB_ACTIONS_SETUP.md`](./GITHUB_ACTIONS_SETUP.md)  
-📕 **Para ver qué cambió**: [`AUTOMATION_SUMMARY.md`](./AUTOMATION_SUMMARY.md)  
-
----
-
-## 🏗️ Ecosistema PocketIDE
+## 🏗️ Ecosistema Deepslate
 
 | Repositorio | Propósito |
 |-------------|-----------|
-| [`pocketide/pocketide`](https://github.com/pocketide/pocketide) | IDE principal |
-| [`pocketide/pocketmine-manifest`](https://github.com/pocketide/pocketmine-manifest) | **Este repositorio** |
-| [`pocketide/pocketmine-stubs`](https://github.com/pocketide/pocketmine-stubs) | Stubs PHP por versión |
+| [`ImAMadDev/pocketmine-manifest`](https://github.com/ImAMadDev/pocketmine-manifest) | **Este repositorio** |
+| [`ImAMadDev/pocketmine-stubs`](https://github.com/ImAMadDev/pocketmine-stubs) | Stubs PHP por versión |
 
 ---
 
@@ -301,10 +278,9 @@ De aquí se extrae automáticamente:
 
 ## 🚀 Próximos Pasos
 
-1. **Lee [`QUICK_START.md`](./QUICK_START.md)** (5 minutos)
-2. **Verifica permisos en GitHub** (1 minuto)
-3. **Prueba el workflow manualmente** (si quieres)
-4. **¡Listo!** El workflow se ejecutará cada 6 horas automáticamente
+1. **Verifica permisos en GitHub** (1 minuto)
+2. **Prueba el workflow manualmente** (si quieres)
+3. **¡Listo!** El workflow se ejecutará cada 6 horas automáticamente
 
 ---
 
@@ -328,6 +304,6 @@ De aquí se extrae automáticamente:
 
 **Sistema**: Automated PocketMine Version Manager  
 **Estado**: ✅ Completamente Operativo y Listo para Producción  
-**Última actualización**: 2026-05-22
+**Última actualización**: 2026-07-01
 
-*PocketIDE Ecosystem — pocketide/pocketmine-manifest*
+*Deepslate Ecosystem — ImAMadDev/pocketmine-manifest*

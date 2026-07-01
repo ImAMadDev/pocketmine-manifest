@@ -96,12 +96,28 @@ if (!str_starts_with($php_tag, "pm5-")) {
     $php_tag = "pm5-" . $php_tag;
 }
 
+// Si el tag contiene -latest, intentar resolver al tag real
+$php_tag_resolved = $php_tag;
+if (str_contains($php_tag, "-latest")) {
+    printf("  ⚠ PHP tag contiene '-latest' (mutable), intentando resolver...\n");
+    $testUrl = PHP_DOWNLOAD . "/{$php_tag}/";
+    $resolved = resolveRedirectUrl($testUrl);
+    if ($resolved && preg_match('#/download/([^/]+)/#', $resolved, $rm)) {
+        $php_tag_resolved = $rm[1];
+        printf("  ✓ Tag resuelto: %s → %s\n", $php_tag, $php_tag_resolved);
+    } else {
+        printf("  ⚠ No se pudo resolver, usando tag original: %s\n", $php_tag);
+        $php_tag_resolved = $php_tag;
+    }
+}
+
 printf("  ✓ Versión:           %s\n", $version);
 printf("  ✓ API version:       %s\n", $api_version);
 printf("  ✓ Minecraft:         %s\n", $mc_version);
 printf("  ✓ PHP:               %s\n", $php_version);
 printf("  ✓ Stability:         %s\n", $stability);
-printf("  ✓ PHP tag:           %s\n\n", $php_tag);
+printf("  ✓ PHP tag (original):%s\n", $php_tag);
+printf("  ✓ PHP tag (resolved):%s\n\n", $php_tag_resolved);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Paso 2: Descargar y calcular SHA256 de artefactos
@@ -113,16 +129,26 @@ $php_file_prefix = str_starts_with($php_tag, "pm5-")
     ? "PHP-{$php_version}"
     : "PHP";
 
+// Usar el tag resuelto para construir las URLs de PHP Binaries
 $downloads = [
     "pocketmine_phar" => PM_DOWNLOAD . "/{$version}/PocketMine-MP.phar",
     "php_windows_x64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-Windows-x64-PM5.zip",
+        PHP_DOWNLOAD . "/{$php_tag_resolved}/{$php_file_prefix}-Windows-x64-PM5.zip",
     "php_linux_x86_64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-Linux-x86_64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag_resolved}/{$php_file_prefix}-Linux-x86_64-PM5.tar.gz",
     "php_macos_x86_64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-MacOS-x86_64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag_resolved}/{$php_file_prefix}-MacOS-x86_64-PM5.tar.gz",
     "php_macos_arm64" =>
-        PHP_DOWNLOAD . "/{$php_tag}/{$php_file_prefix}-MacOS-arm64-PM5.tar.gz",
+        PHP_DOWNLOAD . "/{$php_tag_resolved}/{$php_file_prefix}-MacOS-arm64-PM5.tar.gz",
+];
+
+// Extensiones esperadas y sus magic bytes para verificación
+$expectedMagic = [
+    "pocketmine_phar" => ["<?php", "__HALT"],   // PHAR files
+    "php_windows_x64" => ["PK"],                 // ZIP
+    "php_linux_x86_64" => ["\x1f\x8b"],          // GZIP
+    "php_macos_x86_64" => ["\x1f\x8b"],          // GZIP
+    "php_macos_arm64" => ["\x1f\x8b"],           // GZIP
 ];
 
 $stubsUrl = STUBS_DOWNLOAD . "/{$version}/stubs-{$version}.zip";
@@ -145,11 +171,38 @@ foreach ($downloads as $key => $url) {
         $tmpFile = sys_get_temp_dir() . "/pm_{$version}_" . basename($url);
 
         if (downloadWithRetries($url, $tmpFile, MAX_RETRIES)) {
-            $sha256 = hash_file("sha256", $tmpFile);
-            $checksums[$key] = $url;
-            $checksums[$key . "_sha256"] = $sha256;
-            $tmpFiles[] = $tmpFile;
-            printf(" ✓\n");
+            // Verificar integridad del archivo descargado
+            $magic = $expectedMagic[$key] ?? [];
+            $integrityError = validateDownloadIntegrity($tmpFile, $magic);
+
+            if ($integrityError !== null) {
+                printf(" ⚠️  (%s, recalculando URL)\n", $integrityError);
+                @unlink($tmpFile);
+
+                // Si falla la validación, intentar resolver la URL real
+                $resolvedUrl = resolveRedirectUrl($url);
+                if ($resolvedUrl && $resolvedUrl !== $url) {
+                    printf("    → Reintentando con URL resuelta...\n");
+                    if (downloadWithRetries($resolvedUrl, $tmpFile, MAX_RETRIES)) {
+                        $integrityError = validateDownloadIntegrity($tmpFile, $magic);
+                        if ($integrityError === null) {
+                            $sha256 = hash_file("sha256", $tmpFile);
+                            $checksums[$key] = $resolvedUrl;
+                            $checksums[$key . "_sha256"] = $sha256;
+                            $tmpFiles[] = $tmpFile;
+                            printf("    ✓ (URL resuelta)\n");
+                            continue;
+                        }
+                    }
+                }
+                printf("    ✗ No se pudo verificar integridad, saltando\n");
+            } else {
+                $sha256 = hash_file("sha256", $tmpFile);
+                $checksums[$key] = $url;
+                $checksums[$key . "_sha256"] = $sha256;
+                $tmpFiles[] = $tmpFile;
+                printf(" ✓\n");
+            }
         } else {
             printf(" ⚠️  (saltando)\n");
         }
@@ -193,6 +246,7 @@ $newEntry = [
     "stability" => $stability,
     "minecraft_version" => $mc_version,
     "min_php" => $php_version,
+    "php_binary_tag" => $php_tag_resolved,
     "changelog_url" =>
         PM_DOWNLOAD .
         "/{$version}/changelogs/" .
@@ -372,35 +426,174 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
         $out = @fopen($dest, "wb");
 
         if (!$in || !$out) {
+            if ($in) fclose($in);
+            if ($out) fclose($out);
             if ($attempt < $maxRetries) {
                 sleep(RETRY_DELAY);
             }
             continue;
         }
 
+        // Obtener Content-Length del header para verificar completitud
+        $meta = stream_get_meta_data($in);
+        $expectedSize = null;
+        foreach ($meta["wrapper_data"] ?? [] as $header) {
+            if (preg_match('/^Content-Length:\s*(\d+)/i', $header, $hm)) {
+                $expectedSize = (int) $hm[1];
+            }
+        }
+
+        $bytesWritten = 0;
         $success = true;
         while (!feof($in)) {
             $chunk = @fread($in, CHUNK_SIZE);
-            if ($chunk === false || @fwrite($out, $chunk) === false) {
+            if ($chunk === false) {
                 $success = false;
                 break;
             }
+            $written = @fwrite($out, $chunk);
+            if ($written === false) {
+                $success = false;
+                break;
+            }
+            $bytesWritten += $written;
         }
 
         fclose($in);
         fclose($out);
 
-        if ($success && filesize($dest) > 0) {
-            return true;
+        if (!$success || $bytesWritten === 0) {
+            @unlink($dest);
+            if ($attempt < $maxRetries) {
+                sleep(RETRY_DELAY);
+            }
+            continue;
         }
 
-        @unlink($dest);
-        if ($attempt < $maxRetries) {
-            sleep(RETRY_DELAY);
+        // Verificar que descargamos todos los bytes esperados
+        if ($expectedSize !== null && $bytesWritten !== $expectedSize) {
+            fprintf(
+                STDERR,
+                "\n    ⚠ Descarga incompleta: %d/%d bytes (intento %d/%d)\n",
+                $bytesWritten,
+                $expectedSize,
+                $attempt,
+                $maxRetries,
+            );
+            @unlink($dest);
+            if ($attempt < $maxRetries) {
+                sleep(RETRY_DELAY);
+            }
+            continue;
         }
+
+        return true;
     }
 
     return false;
+}
+
+/**
+ * Sigue los redirects de una URL para obtener la URL final.
+ * Útil para resolver tags -latest de GitHub a URLs estables.
+ */
+function resolveRedirectUrl(string $url): ?string
+{
+    if (!function_exists('curl_init')) {
+        // Fallback sin cURL: usar stream wrappers
+        $context = stream_context_create([
+            "http" => [
+                "method" => "HEAD",
+                "follow_location" => true,
+                "timeout" => 15,
+                "user_agent" => "pocketide/manifest",
+            ],
+            "https" => [
+                "method" => "HEAD",
+                "follow_location" => true,
+                "timeout" => 15,
+                "user_agent" => "pocketide/manifest",
+            ],
+        ]);
+
+        // Intentar obtener la URL final a través de headers
+        $headers = @get_headers($url, true, $context);
+        if ($headers === false) {
+            return null;
+        }
+
+        // Buscar Location header (último redirect)
+        $location = $headers["Location"] ?? null;
+        if (is_array($location)) {
+            return end($location) ?: null;
+        }
+        return $location;
+    }
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_NOBODY => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_USERAGENT => "pocketide/manifest",
+        CURLOPT_RETURNTRANSFER => true,
+    ]);
+    curl_exec($ch);
+    $finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode >= 200 && $httpCode < 400 && $finalUrl) {
+        return $finalUrl;
+    }
+
+    return null;
+}
+
+/**
+ * Verifica la integridad de un archivo descargado:
+ * - Tamaño mínimo (>1KB para evitar archivos vacíos o páginas HTML de error)
+ * - Magic bytes para verificar que el formato es correcto
+ *
+ * Retorna null si OK, o un string describiendo el error.
+ */
+function validateDownloadIntegrity(string $filePath, array $expectedMagicPatterns = []): ?string
+{
+    if (!file_exists($filePath)) {
+        return "archivo no existe";
+    }
+
+    $size = filesize($filePath);
+
+    // Archivos demasiado pequeños probablemente son errores
+    if ($size < 1024) {
+        return "archivo muy pequeño ({$size} bytes)";
+    }
+
+    if (empty($expectedMagicPatterns)) {
+        return null;
+    }
+
+    // Leer los primeros bytes para verificar magic bytes
+    $header = file_get_contents($filePath, false, null, 0, 64);
+    if ($header === false) {
+        return "no se puede leer el header";
+    }
+
+    // Verificar que el archivo no sea una página HTML de error
+    if (str_contains($header, "<!DOCTYPE") || str_contains($header, "<html")) {
+        return "contenido HTML detectado (posible página de error)";
+    }
+
+    // Verificar magic bytes
+    foreach ($expectedMagicPatterns as $magic) {
+        if (str_contains($header, $magic)) {
+            return null; // Coincide con al menos un patrón
+        }
+    }
+
+    return "magic bytes no coinciden (esperado: " . implode(" | ", $expectedMagicPatterns) . ")";
 }
 
 function extractApiVersion(string $version): string

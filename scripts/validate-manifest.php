@@ -174,6 +174,8 @@ $requiredDownloads = [
 ];
 
 $seenVersions = [];
+$seenPharHashes = [];
+$seenPhpHashes = [];
 
 foreach ($manifest["versions"] as $i => $v) {
     $vid = $v["id"] ?? "versión #{$i}";
@@ -270,6 +272,38 @@ foreach ($manifest["versions"] as $i => $v) {
         }
     }
 
+    // Comprobar URLs mutables
+    foreach ($v["downloads"] as $downloadKey => $url) {
+        if (!str_ends_with($downloadKey, "_sha256") && str_contains((string)$url, "-latest")) {
+            $warnings[] = "[{$vid}] URL mutable detectada: downloads.{$downloadKey} contiene '-latest'. El SHA256 no será confiable a largo plazo.";
+        }
+    }
+
+    // Rastrear hashes para comprobar duplicados
+    $pharHash = $v["downloads"]["pocketmine_phar_sha256"] ?? "";
+    if ($pharHash && $pharHash !== "NEEDS_SHA256_COMPUTE") {
+        if (!isset($seenPharHashes[$pharHash])) {
+            $seenPharHashes[$pharHash] = [];
+        }
+        $seenPharHashes[$pharHash][] = $vid;
+    }
+
+    $phpFields = [
+        "php_windows_x64_sha256",
+        "php_linux_x86_64_sha256",
+        "php_macos_x86_64_sha256",
+        "php_macos_arm64_sha256"
+    ];
+    foreach ($phpFields as $field) {
+        $hash = $v["downloads"][$field] ?? "";
+        if ($hash && $hash !== "NEEDS_SHA256_COMPUTE") {
+            if (!isset($seenPhpHashes[$field][$hash])) {
+                $seenPhpHashes[$field][$hash] = [];
+            }
+            $seenPhpHashes[$field][$hash][] = $vid;
+        }
+    }
+
     // Comprobar URLs (HEAD request)
     if ($checkUrls) {
         $urlsToCheck = array_filter(
@@ -341,6 +375,22 @@ foreach ($manifest["versions"] as $i => $v) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 printf("\n[3/3] Verificaciones adicionales...\n\n");
+
+// Check for duplicated PHAR hashes
+foreach ($seenPharHashes as $hash => $versions) {
+    if (count($versions) > 1) {
+        $errors[] = "SHA256 de PocketMine PHAR duplicado ({$hash}) en versiones: " . implode(", ", $versions);
+    }
+}
+
+// Check for suspiciously high duplicates of PHP binary hashes
+foreach ($seenPhpHashes as $field => $hashCounts) {
+    foreach ($hashCounts as $hash => $versions) {
+        if (count($versions) > 5) {
+            $warnings[] = "SHA256 de PHP binary '{$field}' sospechosamente duplicado en " . count($versions) . " versiones (" . implode(", ", array_slice($versions, 0, 5)) . "...). Probablemente causado por URLs '-latest' mutables.";
+        }
+    }
+}
 
 if (empty($manifest["versions"])) {
     $errors[] = "No hay versiones definidas en manifest.json";

@@ -1,39 +1,15 @@
 {
     "manifest_version": 2,
-    "updated_at": "2026-06-30T13:30:35Z",
+    "updated_at": "2026-07-01T04:56:32Z",
     "versions": [
-        {
-            "id": "4.24.0",
-            "api_version": "4.24.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.20.30",
-            "min_php": "8.1",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/changelogs/4.24.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "162fffba3f4d3c6b504fac2062a4250a00291dd439c1190f3fa244529d61d827",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.24.0/stubs-4.24.0.zip",
-                "checksum_sha256": "481b9a6243c8d7cb73d8465c5aee6e3b4b130c9e3d209af1f0975f04be66a2f6"
-            }
-        },
         {
             "id": "4.23.6",
             "api_version": "4.23.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/changelogs/4.23.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/PocketMine-MP.phar",
@@ -53,12 +29,39 @@
             }
         },
         {
+            "id": "4.24.0",
+            "api_version": "4.24.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.20.30",
+            "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/changelogs/4.24.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "162fffba3f4d3c6b504fac2062a4250a00291dd439c1190f3fa244529d61d827",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "d6dcd343c25963d46b592edfe42ed3c00d3c126576d9778d27414e182bd6487e",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "7b38dee6321a40e941866e34c19eac659ff79eccf691132bb0b0e49adfc4baf3",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "86a8933e82642058047879261fdc01fe438ee6fed2b0e2e61d98868ba3060c8c",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "88484d85bfda502237b1ab9db7610865f3a2f9b3f2c0525ab845390f2ab37f02"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/4.24.0/stubs-4.24.0.zip",
+                "checksum_sha256": "481b9a6243c8d7cb73d8465c5aee6e3b4b130c9e3d209af1f0975f04be66a2f6"
+            }
+        },
+        {
             "id": "4.25.0",
             "api_version": "4.25.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.40",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/changelogs/4.25.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/PocketMine-MP.phar",
@@ -80,10 +83,11 @@
         {
             "id": "4.26.0",
             "api_version": "4.26.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.50",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/changelogs/4.26.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/PocketMine-MP.phar",
@@ -105,10 +109,11 @@
         {
             "id": "5.4.4",
             "api_version": "5.4.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.4.4/changelogs/5.4.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.4.4/PocketMine-MP.phar",
@@ -130,10 +135,11 @@
         {
             "id": "5.5.0",
             "api_version": "5.5.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.10",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.5.0/changelogs/5.5.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.5.0/PocketMine-MP.phar",
@@ -155,10 +161,11 @@
         {
             "id": "5.6.1",
             "api_version": "5.6.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.30",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.6.1/changelogs/5.6.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.6.1/PocketMine-MP.phar",
@@ -180,10 +187,11 @@
         {
             "id": "5.7.1",
             "api_version": "5.7.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.40",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.7.1/changelogs/5.7.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.7.1/PocketMine-MP.phar",
@@ -205,10 +213,11 @@
         {
             "id": "5.8.2",
             "api_version": "5.8.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.40",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.8.2/changelogs/5.8.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.8.2/PocketMine-MP.phar",
@@ -230,10 +239,11 @@
         {
             "id": "5.9.0",
             "api_version": "5.9.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.50",
             "min_php": "8.1",
+            "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.9.0/changelogs/5.9.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.9.0/PocketMine-MP.phar",
@@ -255,10 +265,11 @@
         {
             "id": "5.10.0",
             "api_version": "5.10.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.50",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.10.0/changelogs/5.10.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.10.0/PocketMine-MP.phar",
@@ -280,10 +291,11 @@
         {
             "id": "5.11.2",
             "api_version": "5.11.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.60",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.11.2/changelogs/5.11.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.11.2/PocketMine-MP.phar",
@@ -305,10 +317,11 @@
         {
             "id": "5.12.1",
             "api_version": "5.12.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.60",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.12.1/changelogs/5.12.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.12.1/PocketMine-MP.phar",
@@ -330,10 +343,11 @@
         {
             "id": "5.13.0",
             "api_version": "5.13.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.70",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.13.0/changelogs/5.13.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.13.0/PocketMine-MP.phar",
@@ -355,10 +369,11 @@
         {
             "id": "5.14.1",
             "api_version": "5.14.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.70",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.14.1/changelogs/5.14.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.14.1/PocketMine-MP.phar",
@@ -380,10 +395,11 @@
         {
             "id": "5.15.0",
             "api_version": "5.15.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.20.80",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.15.0/changelogs/5.15.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.15.0/PocketMine-MP.phar",
@@ -405,10 +421,11 @@
         {
             "id": "5.16.0",
             "api_version": "5.16.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.0",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.16.0/changelogs/5.16.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.16.0/PocketMine-MP.phar",
@@ -430,10 +447,11 @@
         {
             "id": "5.17.1",
             "api_version": "5.17.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.2",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.17.1/changelogs/5.17.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.17.1/PocketMine-MP.phar",
@@ -455,10 +473,11 @@
         {
             "id": "5.18.1",
             "api_version": "5.18.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.20",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.18.1/changelogs/5.18.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.18.1/PocketMine-MP.phar",
@@ -480,10 +499,11 @@
         {
             "id": "5.19.0",
             "api_version": "5.19.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.30",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.19.0/changelogs/5.19.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.19.0/PocketMine-MP.phar",
@@ -503,37 +523,13 @@
             }
         },
         {
-            "id": "5.21.2",
-            "api_version": "5.21.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.21.40",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/changelogs/5.21.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "0612f64d1457ebcbb68ce862e4bd58a44c8fcf478c766c004c380d8ade4602d9",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.21.2/stubs-5.21.2.zip",
-                "checksum_sha256": "73511ed3559a214035079351af5bc41e97d8cb4879a1c5da2be3b9e9d3cb522c"
-            }
-        },
-        {
             "id": "5.20.1",
             "api_version": "5.20.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.40",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.20.1/changelogs/5.20.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.20.1/PocketMine-MP.phar",
@@ -553,12 +549,39 @@
             }
         },
         {
+            "id": "5.21.2",
+            "api_version": "5.21.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.21.40",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/changelogs/5.21.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "0612f64d1457ebcbb68ce862e4bd58a44c8fcf478c766c004c380d8ade4602d9",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.21.2/stubs-5.21.2.zip",
+                "checksum_sha256": "73511ed3559a214035079351af5bc41e97d8cb4879a1c5da2be3b9e9d3cb522c"
+            }
+        },
+        {
             "id": "5.22.0",
             "api_version": "5.22.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.22.0/changelogs/5.22.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.22.0/PocketMine-MP.phar",
@@ -580,10 +603,11 @@
         {
             "id": "5.23.3",
             "api_version": "5.23.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.23.3/changelogs/5.23.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.23.3/PocketMine-MP.phar",
@@ -603,37 +627,13 @@
             }
         },
         {
-            "id": "5.25.2",
-            "api_version": "5.25.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.21.60",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/changelogs/5.25.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "8360dc331fd21c207ab59cff4e0f26e2fd93c67e9c81bae230d4b244bdac126f",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.25.2/stubs-5.25.2.zip",
-                "checksum_sha256": "a2e180c6e8f30e38ff1e4ce5be33cfb0aa1a400b3f034a3a59216463ff07e1b6"
-            }
-        },
-        {
             "id": "5.24.0",
             "api_version": "5.24.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.50",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.24.0/changelogs/5.24.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.24.0/PocketMine-MP.phar",
@@ -653,12 +653,39 @@
             }
         },
         {
-            "id": "5.26.0",
-            "api_version": "5.26.0",
-            "release_date": "2026-06-30",
+            "id": "5.25.2",
+            "api_version": "5.25.0",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.60",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/changelogs/5.25.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "8360dc331fd21c207ab59cff4e0f26e2fd93c67e9c81bae230d4b244bdac126f",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.25.2/stubs-5.25.2.zip",
+                "checksum_sha256": "a2e180c6e8f30e38ff1e4ce5be33cfb0aa1a400b3f034a3a59216463ff07e1b6"
+            }
+        },
+        {
+            "id": "5.26.0",
+            "api_version": "5.26.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.21.60",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.26.0/changelogs/5.26.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.26.0/PocketMine-MP.phar",
@@ -678,62 +705,13 @@
             }
         },
         {
-            "id": "5.29.0",
-            "api_version": "5.29.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.21.90",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/changelogs/5.29.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "cceb54bf9dec26f64e608ae7fff9a336c478e34cb4e456ca0b72242a2f44657c",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.29.0/stubs-5.29.0.zip",
-                "checksum_sha256": "d7a5770dae64fc474b63bfd546f25f0c61710a129f7aa62b25f1df849238d818"
-            }
-        },
-        {
-            "id": "5.28.2",
-            "api_version": "5.28.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.21.80",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/changelogs/5.28.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "178a81a2bbea6db36466c9facaf399109431e0af32027249823fe4a06e640bac",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.28.2/stubs-5.28.2.zip",
-                "checksum_sha256": "e6f627c395c2900474fddcc7c9ecc14c130aedefc388c29356058775bbc1565c"
-            }
-        },
-        {
             "id": "5.27.1",
             "api_version": "5.27.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.70",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.27.1/changelogs/5.27.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.27.1/PocketMine-MP.phar",
@@ -753,12 +731,65 @@
             }
         },
         {
-            "id": "5.30.1",
-            "api_version": "5.30.0",
-            "release_date": "2026-06-30",
+            "id": "5.28.2",
+            "api_version": "5.28.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.21.80",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/changelogs/5.28.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "178a81a2bbea6db36466c9facaf399109431e0af32027249823fe4a06e640bac",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.28.2/stubs-5.28.2.zip",
+                "checksum_sha256": "e6f627c395c2900474fddcc7c9ecc14c130aedefc388c29356058775bbc1565c"
+            }
+        },
+        {
+            "id": "5.29.0",
+            "api_version": "5.29.0",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.90",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/changelogs/5.29.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "cceb54bf9dec26f64e608ae7fff9a336c478e34cb4e456ca0b72242a2f44657c",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.29.0/stubs-5.29.0.zip",
+                "checksum_sha256": "d7a5770dae64fc474b63bfd546f25f0c61710a129f7aa62b25f1df849238d818"
+            }
+        },
+        {
+            "id": "5.30.1",
+            "api_version": "5.30.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.21.90",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.30.1/changelogs/5.30.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.30.1/PocketMine-MP.phar",
@@ -780,10 +811,11 @@
         {
             "id": "5.31.0",
             "api_version": "5.31.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.93",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.31.0/changelogs/5.31.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.31.0/PocketMine-MP.phar",
@@ -805,10 +837,11 @@
         {
             "id": "5.32.1",
             "api_version": "5.32.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.32.1/changelogs/5.32.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.32.1/PocketMine-MP.phar",
@@ -830,10 +863,11 @@
         {
             "id": "5.33.2",
             "api_version": "5.33.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.33.2/changelogs/5.33.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.33.2/PocketMine-MP.phar",
@@ -855,10 +889,11 @@
         {
             "id": "5.34.1",
             "api_version": "5.34.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.100",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.34.1/changelogs/5.34.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.34.1/PocketMine-MP.phar",
@@ -878,12 +913,39 @@
             }
         },
         {
-            "id": "5.36.0",
-            "api_version": "5.36.0",
-            "release_date": "2026-06-30",
+            "id": "5.35.1",
+            "api_version": "5.35.0",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.111",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/changelogs/5.35.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "25204f20394d5c955eeb99ae108acd8e7b262f9ea6d6138b52b84d5541056f69",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.35.1/stubs-5.35.1.zip",
+                "checksum_sha256": "d4bf9efd4b398aafa7a73f0a9d628bd18553cdb58130b7353f54663289ab0d0e"
+            }
+        },
+        {
+            "id": "5.36.0",
+            "api_version": "5.36.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.21.111",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.36.0/changelogs/5.36.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.36.0/PocketMine-MP.phar",
@@ -905,10 +967,11 @@
         {
             "id": "5.37.3",
             "api_version": "5.37.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.124",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.37.3/changelogs/5.37.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.37.3/PocketMine-MP.phar",
@@ -928,37 +991,13 @@
             }
         },
         {
-            "id": "5.35.1",
-            "api_version": "5.35.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.21.111",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/changelogs/5.35.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "25204f20394d5c955eeb99ae108acd8e7b262f9ea6d6138b52b84d5541056f69",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.35.1/stubs-5.35.1.zip",
-                "checksum_sha256": "d4bf9efd4b398aafa7a73f0a9d628bd18553cdb58130b7353f54663289ab0d0e"
-            }
-        },
-        {
             "id": "5.38.0",
             "api_version": "5.38.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.130",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.38.0/changelogs/5.38.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.38.0/PocketMine-MP.phar",
@@ -980,10 +1019,11 @@
         {
             "id": "5.39.3",
             "api_version": "5.39.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.21.130",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.39.3/changelogs/5.39.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.39.3/PocketMine-MP.phar",
@@ -1005,10 +1045,11 @@
         {
             "id": "5.40.0",
             "api_version": "5.40.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.26.0",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.40.0/changelogs/5.40.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.40.0/PocketMine-MP.phar",
@@ -1030,10 +1071,11 @@
         {
             "id": "5.41.1",
             "api_version": "5.41.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.26.0",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.41.1/changelogs/5.41.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.41.1/PocketMine-MP.phar",
@@ -1055,10 +1097,11 @@
         {
             "id": "5.42.1",
             "api_version": "5.42.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.26.10",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.1/changelogs/5.42.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.1/PocketMine-MP.phar",
@@ -1078,62 +1121,13 @@
             }
         },
         {
-            "id": "5.44.2",
-            "api_version": "5.44.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.26.30",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/changelogs/5.44.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "f101d1b3873cc21c812c64273b7669188e71411ce93e99e348bdfa2f84d3645d",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.44.2/stubs-5.44.2.zip",
-                "checksum_sha256": "3b0ea899bc4558f5cb3e7d0e9d5542d988f7e4ee116772b39f6caed4affcfeca"
-            }
-        },
-        {
-            "id": "5.44.1",
-            "api_version": "5.44.0",
-            "release_date": "2026-06-30",
-            "stability": "stable",
-            "minecraft_version": "1.26.30",
-            "min_php": "8.2",
-            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/changelogs/5.44.md",
-            "downloads": {
-                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/PocketMine-MP.phar",
-                "pocketmine_phar_sha256": "0b361e1416582eba59b12559f7073204f78c2e7b981ea3ff74b311a362286bb5",
-                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
-                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
-                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
-                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
-                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
-                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
-                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
-                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
-            },
-            "stubs": {
-                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.44.1/stubs-5.44.1.zip",
-                "checksum_sha256": "8d249a4201a892b8916a71d485668a8d0a5ccad05015c5a2d7c31a1da4e2a532"
-            }
-        },
-        {
             "id": "5.43.1",
             "api_version": "5.43.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.26.20",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/changelogs/5.43.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/PocketMine-MP.phar",
@@ -1155,10 +1149,11 @@
         {
             "id": "5.43.2",
             "api_version": "5.43.0",
-            "release_date": "2026-06-30",
+            "release_date": "2026-07-01",
             "stability": "stable",
             "minecraft_version": "1.26.20",
             "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.2/changelogs/5.43.md",
             "downloads": {
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.2/PocketMine-MP.phar",
@@ -1175,6 +1170,58 @@
             "stubs": {
                 "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.43.2/stubs-5.43.2.zip",
                 "checksum_sha256": "a67d31fa118d785f4807b45bfc9adbc81a48e3dd3c633a6280a0fdaf52e7327a"
+            }
+        },
+        {
+            "id": "5.44.1",
+            "api_version": "5.44.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.26.30",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/changelogs/5.44.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "0b361e1416582eba59b12559f7073204f78c2e7b981ea3ff74b311a362286bb5",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.44.1/stubs-5.44.1.zip",
+                "checksum_sha256": "8d249a4201a892b8916a71d485668a8d0a5ccad05015c5a2d7c31a1da4e2a532"
+            }
+        },
+        {
+            "id": "5.44.2",
+            "api_version": "5.44.0",
+            "release_date": "2026-07-01",
+            "stability": "stable",
+            "minecraft_version": "1.26.30",
+            "min_php": "8.2",
+            "php_binary_tag": "pm5-php-8.2-latest",
+            "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/changelogs/5.44.md",
+            "downloads": {
+                "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/PocketMine-MP.phar",
+                "pocketmine_phar_sha256": "f101d1b3873cc21c812c64273b7669188e71411ce93e99e348bdfa2f84d3645d",
+                "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
+                "php_windows_x64_sha256": "c9ca8505da43977d431267ffa782a7b5b077fca068ae2a9da81271c62ef18ba9",
+                "php_linux_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Linux-x86_64-PM5.tar.gz",
+                "php_linux_x86_64_sha256": "000fc605878d24be3d6faa6991c0d3a39ae90a0f9ff24d9f4e4722ef823082fc",
+                "php_macos_x86_64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-x86_64-PM5.tar.gz",
+                "php_macos_x86_64_sha256": "bca5c269f329a4f763719eb19772509373af1a6122a215bce4aa4c95e2743888",
+                "php_macos_arm64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-MacOS-arm64-PM5.tar.gz",
+                "php_macos_arm64_sha256": "eae469f7f7843b718e53021bbcc6a1a18f91b617cf7895a8cf8985451a66c8e6"
+            },
+            "stubs": {
+                "url": "https://github.com/ImAMadDev/pocketmine-stubs/releases/download/5.44.2/stubs-5.44.2.zip",
+                "checksum_sha256": "3b0ea899bc4558f5cb3e7d0e9d5542d988f7e4ee116772b39f6caed4affcfeca"
             }
         }
     ]
