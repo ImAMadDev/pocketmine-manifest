@@ -231,13 +231,16 @@ foreach ($manifest["versions"] as $index => $v) {
         $warnings[] = "[{$vid}] Fecha de release no es ISO 8601 (YYYY-MM-DD): '{$v["release_date"]}'";
     }
 
-    // Detectar placeholders
+    // Detectar placeholders y valores fallidos
     $haystack = json_encode($v);
     if (str_contains($haystack, "NEEDS_SHA256_COMPUTE")) {
         $warnings[] = "[{$vid}] SHA256 sin calcular (NEEDS_SHA256_COMPUTE)";
     }
     if (str_contains($haystack, "NEEDS_MANUAL_FILL")) {
         $warnings[] = "[{$vid}] Campos sin completar (NEEDS_MANUAL_FILL)";
+    }
+    if (str_contains($haystack, "DOWNLOAD_FAILED")) {
+        $errors[] = "[{$vid}] Entrada contiene descargas o stubs fallidos (DOWNLOAD_FAILED)";
     }
 
     // Validar downloads
@@ -268,7 +271,7 @@ foreach ($manifest["versions"] as $index => $v) {
         if (empty($v["stubs"]["checksum_sha256"])) {
             $errors[] = "[{$vid}] stubs.checksum_sha256 ausente";
         } elseif (
-            $v["stubs"]["checksum_sha256"] !== "DOWNLOAD_FAILED" &&
+            $v["stubs"]["checksum_sha256"] === "DOWNLOAD_FAILED" ||
             !preg_match('/^[a-f0-9]{64}$/', (string)$v["stubs"]["checksum_sha256"])
         ) {
             $errors[] = "[{$vid}] stubs.checksum_sha256 no es SHA256 válido: '{$v["stubs"]["checksum_sha256"]}'";

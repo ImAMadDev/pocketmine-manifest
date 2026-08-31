@@ -80,6 +80,19 @@ def fetch_all_releases(owner: str, repo: str, token: str | None = None) -> list[
     return releases
 
 
+def fetch_available_stubs(token: str | None = None) -> set[str]:
+    """Obtener todos los tags de stubs disponibles en ImAMadDev/pocketmine-stubs"""
+    print("Verificando stubs disponibles en ImAMadDev/pocketmine-stubs...")
+    try:
+        stubs_releases = fetch_all_releases("ImAMadDev", "pocketmine-stubs", token)
+        available = {r.get("tag_name") for r in stubs_releases if r.get("tag_name")}
+        print(f"✓ {len(available)} releases de stubs disponibles encontrados.\n")
+        return available
+    except Exception as e:
+        print(f"⚠ No se pudieron consultar stubs ({e}), continuando sin prefiltrado de stubs.\n")
+        return set()
+
+
 def load_manifest():
     """Cargar manifest.json actual"""
     if not os.path.exists(MANIFEST_PATH):
@@ -177,6 +190,9 @@ def process_software_releases(
     skip_existing: bool = True,
     max_workers: int = 1,
     output: str | None = None,
+    include_prereleases: bool = False,
+    include_drafts: bool = False,
+    available_stubs: set[str] | None = None,
 ) -> None:
     repo_full = fork_config.get("repo", "")
     if "/" not in repo_full:
@@ -185,6 +201,7 @@ def process_software_releases(
 
     owner, repo = repo_full.split("/", 1)
     tag_prefix = fork_config.get("tag_prefix", "")
+    stubs_tag_prefix = fork_config.get("stubs_tag_prefix", tag_prefix)
 
     print(f"\nObteniendo releases para {software} ({owner}/{repo})...\n")
     releases = fetch_all_releases(owner, repo, token)
@@ -201,22 +218,51 @@ def process_software_releases(
     existing = get_existing_versions(software) if skip_existing else set()
 
     versions_to_process = []
-    skipped = 0
+    skipped_existing = 0
+    skipped_prerelease = 0
+    skipped_draft = 0
+    skipped_no_stubs = 0
+
     for release in releases:
         tag = release.get("tag_name")
         if not tag:
             continue
+
+        is_draft = bool(release.get("draft", False))
+        is_prerelease = bool(release.get("prerelease", False))
+
+        if is_draft and not include_drafts:
+            skipped_draft += 1
+            continue
+
+        if is_prerelease and not include_prereleases:
+            skipped_prerelease += 1
+            continue
+
         clean_v = clean_tag_version(tag, tag_prefix)
         if skip_existing and clean_v in existing:
-            skipped += 1
+            skipped_existing += 1
             continue
+
+        if available_stubs:
+            expected_stub_tag = f"{stubs_tag_prefix}{clean_v}" if stubs_tag_prefix else clean_v
+            if expected_stub_tag not in available_stubs:
+                skipped_no_stubs += 1
+                continue
+
         versions_to_process.append(clean_v)
 
     print(f"\n{'─' * 70}")
     mode = "Secuencial" if max_workers == 1 else f"Paralelo ({max_workers} hilos)"
     print(f"📦 Procesando {len(versions_to_process)} releases de {software} ({mode})...")
-    if skipped > 0:
-        print(f"  ⊘ Saltadas (ya existen): {skipped}")
+    if skipped_existing > 0:
+        print(f"  ⊘ Saltadas (ya existen en manifest): {skipped_existing}")
+    if skipped_prerelease > 0:
+        print(f"  ⊘ Saltadas (no estables / pre-releases): {skipped_prerelease}")
+    if skipped_draft > 0:
+        print(f"  ⊘ Saltadas (drafts): {skipped_draft}")
+    if skipped_no_stubs > 0:
+        print(f"  ⊘ Saltadas (sin stubs en pocketmine-stubs): {skipped_no_stubs}")
     print(f"{'─' * 70}\n")
 
     if not versions_to_process:
@@ -243,7 +289,7 @@ def process_software_releases(
                     print(f"  ✓ [{completed}/{total}] {software}@{version} procesada correctamente", flush=True)
                     added += 1
                 else:
-                    print(f"  ✗ [{completed}/{total}] {software}@{version} falló al procesar", flush=True)
+                    print(f"  ⊘ [{completed}/{total}] {software}@{version} omitida (stubs o artefactos no disponibles)", flush=True)
                     failed += 1
             except Exception as e:
                 print(f"  ✗ [{completed}/{total}] {software}@{version} lanzó excepción: {e}", flush=True)
@@ -252,11 +298,15 @@ def process_software_releases(
     print(f"\n{'─' * 70}")
     print(f"📊 Resumen ({software}):")
     print(f"  ✓ Agregadas: {added}")
-    if skipped > 0:
-        print(f"  ⊘ Saltadas (ya existen): {skipped}")
+    if skipped_existing > 0:
+        print(f"  ⊘ Saltadas (ya existen): {skipped_existing}")
+    if skipped_prerelease > 0:
+        print(f"  ⊘ Saltadas (no estables): {skipped_prerelease}")
+    if skipped_no_stubs > 0:
+        print(f"  ⊘ Saltadas (sin stubs): {skipped_no_stubs}")
     if failed > 0:
-        print(f"  ✗ Con error: {failed}")
-    print(f"  Total: {added + skipped + failed} de {len(releases)}")
+        print(f"  ⊘ Omitidas / No disponibles: {failed}")
+    print(f"  Total evaluadas: {len(releases)}")
     print(f"{'─' * 70}\n")
 
 
@@ -288,6 +338,21 @@ if __name__ == "__main__":
         help="No saltar versiones existentes (procesar todas)",
     )
     parser.add_argument(
+        "--include-prereleases",
+        action="store_true",
+        help="Incluir releases marcados como pre-release (alpha, beta, rc)",
+    )
+    parser.add_argument(
+        "--include-drafts",
+        action="store_true",
+        help="Incluir releases marcados como draft",
+    )
+    parser.add_argument(
+        "--no-stubs-check",
+        action="store_true",
+        help="No prefiltrar por tags existentes en ImAMadDev/pocketmine-stubs",
+    )
+    parser.add_argument(
         "--threads",
         type=int,
         default=1,
@@ -307,6 +372,10 @@ if __name__ == "__main__":
     if args.parallel and workers == 1:
         workers = 4
 
+    available_stubs = None
+    if not args.no_stubs_check:
+        available_stubs = fetch_available_stubs(args.token)
+
     if args.software == "all":
         for s_name, s_config in forks_dict.items():
             process_software_releases(
@@ -316,6 +385,9 @@ if __name__ == "__main__":
                 skip_existing=not args.no_skip,
                 max_workers=workers,
                 output=args.output,
+                include_prereleases=args.include_prereleases,
+                include_drafts=args.include_drafts,
+                available_stubs=available_stubs,
             )
     else:
         if args.software in forks_dict:
@@ -337,4 +409,7 @@ if __name__ == "__main__":
             skip_existing=not args.no_skip,
             max_workers=workers,
             output=args.output,
+            include_prereleases=args.include_prereleases,
+            include_drafts=args.include_drafts,
+            available_stubs=available_stubs,
         )
