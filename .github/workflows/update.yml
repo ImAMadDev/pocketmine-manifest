@@ -55,7 +55,7 @@ jobs:
         run: |
           SOFTWARE="${{ github.event.client_payload.software || inputs.software || 'pocketmine' }}"
           REPO=$(jq -r --arg s "$SOFTWARE" '.forks[$s].repo // "pmmp/PocketMine-MP"' forks.json)
-          NAME=$(jq -r --arg s "$SOFTWARE" '.forks[$s].name // $SOFTWARE' forks.json)
+          NAME=$(jq -r --arg s "$SOFTWARE" '.forks[$s].name // $s' forks.json)
           TAG_PREFIX=$(jq -r --arg s "$SOFTWARE" '.forks[$s].tag_prefix // ""' forks.json)
 
           echo "software=$SOFTWARE" >> $GITHUB_OUTPUT
