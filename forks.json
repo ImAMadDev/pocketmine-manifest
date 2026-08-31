@@ -22,7 +22,7 @@
       "phar_latest_url": "https://github.com/axolotl-pm/PocketMine-MP/releases/latest/download/PocketMine-MP.phar",
       "source_url_template": "https://github.com/axolotl-pm/PocketMine-MP/archive/refs/tags/{version}.zip",
       "phar_name": "PocketMine-MP.phar",
-      "tag_prefix": "axolotl-",
+      "tag_prefix": "",
       "stubs_tag_prefix": "axolotl-",
       "release_name_template": "Stubs Axolotl-PM {version}",
       "description": "High-performance PocketMine-MP fork"
@@ -35,7 +35,7 @@
       "phar_latest_url": "https://github.com/altayofficial/Altay/releases/latest/download/Altay.phar",
       "source_url_template": "https://github.com/altayofficial/Altay/archive/refs/tags/{version}.zip",
       "phar_name": "Altay.phar",
-      "tag_prefix": "altay-",
+      "tag_prefix": "",
       "stubs_tag_prefix": "altay-",
       "release_name_template": "Stubs Altay {version}",
       "description": "Altay PocketMine-MP fork"

@@ -198,14 +198,43 @@ $expectedMagic = [
     "php_macos_arm64" => ["\x1f\x8b"],
 ];
 
-// Construir URL de stubs dinámicamente según tag prefix
+// Construir URL de stubs dinámicamente según configuración
 $stubsReleaseTag = !empty($stubsTagPrefix) ? "{$stubsTagPrefix}{$version}" : $version;
-$stubsZipFile = !empty($stubsTagPrefix) ? "stubs-{$stubsTagPrefix}{$version}.zip" : "stubs-{$version}.zip";
+if (!empty($forkConfig["stubs_zip_template"])) {
+    $stubsZipFile = str_replace("{version}", $version, $forkConfig["stubs_zip_template"]);
+} elseif (!empty($forkConfig["stubs_zip_name"])) {
+    $stubsZipFile = str_replace("{version}", $version, $forkConfig["stubs_zip_name"]);
+} elseif ($software !== "pocketmine") {
+    $stubsZipFile = "stubs-{$software}-{$version}.zip";
+} else {
+    $stubsZipFile = "stubs-{$version}.zip";
+}
 $stubsUrl = STUBS_DOWNLOAD . "/{$stubsReleaseTag}/{$stubsZipFile}";
 
 $checksums = [];
 $tmpFiles = [];
-$stubsSha256 = "";
+// Descarga y procesamiento de los Stubs PRIMERO (falla rápido si no existen)
+printf("  [↓] %-35s", "stubs ({$stubsZipFile})");
+flush();
+
+if ($dryRun) {
+    $stubsSha256 = "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb";
+    printf(" (dry-run)\n");
+} else {
+    $stubsTmpFile = sys_get_temp_dir() . "/stubs-{$software}-{$version}.zip";
+
+    if (downloadWithRetries($stubsUrl, $stubsTmpFile, MAX_RETRIES)) {
+        $stubsSha256 = hash_file("sha256", $stubsTmpFile);
+        $tmpFiles[] = $stubsTmpFile;
+        printf(" ✓\n");
+    } else {
+        printf(" ✗ (no encontrados en %s)\n", $stubsUrl);
+        foreach ($tmpFiles as $f) {
+            @unlink($f);
+        }
+        exitWithError("Stubs requeridos no disponibles en {$stubsUrl}. Omitiendo versión {$software}@{$version}.");
+    }
+}
 
 // Descargar PHAR y Binarios
 foreach ($downloads as $key => $url) {
@@ -268,24 +297,26 @@ if (isset($checksums["server_phar_sha256"])) {
     $checksums["pocketmine_phar_sha256"] = $checksums["server_phar_sha256"];
 }
 
-// Descarga y procesamiento de los Stubs
-printf("  [↓] %-35s", "stubs ({$stubsZipFile})");
-flush();
-
-if ($dryRun) {
-    $stubsSha256 = "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb";
-    printf(" (dry-run)\n");
-} else {
-    $stubsTmpFile = sys_get_temp_dir() . "/stubs-{$software}-{$version}.zip";
-
-    if (downloadWithRetries($stubsUrl, $stubsTmpFile, MAX_RETRIES)) {
-        $stubsSha256 = hash_file("sha256", $stubsTmpFile);
-        $tmpFiles[] = $stubsTmpFile;
-        printf(" ✓\n");
-    } else {
-        $stubsSha256 = "DOWNLOAD_FAILED";
-        printf(" ⚠️  (error al obtener stubs de %s)\n", $stubsUrl);
+// Validar que todas las descargas requeridas estén completas
+$requiredDownloadKeys = [
+    "server_phar",
+    "pocketmine_phar",
+    "php_windows_x64",
+    "php_linux_x86_64",
+    "php_macos_x86_64",
+    "php_macos_arm64",
+];
+$missingDownloads = [];
+foreach ($requiredDownloadKeys as $reqKey) {
+    if (empty($checksums[$reqKey]) || empty($checksums[$reqKey . "_sha256"])) {
+        $missingDownloads[] = $reqKey;
     }
+}
+if (!empty($missingDownloads)) {
+    foreach ($tmpFiles as $f) {
+        @unlink($f);
+    }
+    exitWithError("Descargas requeridas faltantes o con error para {$software}@{$version}: " . implode(", ", $missingDownloads));
 }
 
 printf("\n");
@@ -533,6 +564,42 @@ function fetchReleaseDetails(string $repo, string $version): array
 
 function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
 {
+    if (function_exists('curl_init')) {
+        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+            $fp = @fopen($dest, 'w+');
+            if (!$fp) {
+                return false;
+            }
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_FILE => $fp,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_TIMEOUT => 300,
+                CURLOPT_USERAGENT => "deepslate/manifest",
+                CURLOPT_FAILONERROR => false,
+            ]);
+            $success = curl_exec($ch);
+            $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            fclose($fp);
+
+            if ($httpCode === 404 || $httpCode === 410) {
+                @unlink($dest);
+                return false;
+            }
+
+            if ($success && $httpCode >= 200 && $httpCode < 300 && file_exists($dest) && filesize($dest) > 0) {
+                return true;
+            }
+
+            @unlink($dest);
+            if ($attempt < $maxRetries) {
+                sleep(RETRY_DELAY);
+            }
+        }
+        return false;
+    }
+
     for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
         $context = stream_context_create([
             "http" => [
@@ -540,12 +607,14 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
                 "follow_location" => true,
                 "timeout" => 300,
                 "user_agent" => "deepslate/manifest",
+                "ignore_errors" => true,
             ],
             "https" => [
                 "method" => "GET",
                 "follow_location" => true,
                 "timeout" => 300,
                 "user_agent" => "deepslate/manifest",
+                "ignore_errors" => true,
             ],
         ]);
 
@@ -562,8 +631,23 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
         }
 
         $meta = stream_get_meta_data($in);
+        $headers = $meta["wrapper_data"] ?? [];
+        $httpCode = 0;
+        foreach ($headers as $h) {
+            if (preg_match('#^HTTP/\S+\s+(\d+)#i', $h, $m)) {
+                $httpCode = (int) $m[1];
+            }
+        }
+
+        if ($httpCode === 404 || $httpCode === 410) {
+            fclose($in);
+            fclose($out);
+            @unlink($dest);
+            return false;
+        }
+
         $expectedSize = null;
-        foreach ($meta["wrapper_data"] ?? [] as $header) {
+        foreach ($headers as $header) {
             if (preg_match('/^Content-Length:\s*(\d+)/i', $header, $hm)) {
                 $expectedSize = (int) $hm[1];
             }
@@ -588,7 +672,7 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
         fclose($in);
         fclose($out);
 
-        if (!$success || $bytesWritten === 0) {
+        if (!$success || $bytesWritten === 0 || ($httpCode >= 400 && $httpCode < 600)) {
             @unlink($dest);
             if ($attempt < $maxRetries) {
                 sleep(RETRY_DELAY);
