@@ -1,0 +1,15 @@
+{
+  "version": "5.48.0",
+  "software": "axolotl-pm",
+  "generated_at": "2026-08-31T17:35:02Z",
+  "sha256": "d58a16d37c999df6008187690c8e9efc98d8605b3a6d860b56bca5c3803d0b80",
+  "zip_path": "output/stubs-axolotl-pm-5.48.0.zip",
+  "classes": 2225,
+  "interfaces": 123,
+  "traits": 62,
+  "functions": 18,
+  "constants": 8,
+  "namespaces": 173,
+  "files_processed": 2457,
+  "parse_errors": 0
+}

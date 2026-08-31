@@ -1,0 +1,15 @@
+{
+  "version": "5.42.1",
+  "software": "pocketmine",
+  "generated_at": "2026-08-31T17:08:56Z",
+  "sha256": "1fba6469c403e3a2712eaab94dde32327010e2c36c9863d6afacb7b750a03a7e",
+  "zip_path": "output/stubs-5.42.1.zip",
+  "classes": 2170,
+  "interfaces": 123,
+  "traits": 61,
+  "functions": 18,
+  "constants": 8,
+  "namespaces": 167,
+  "files_processed": 2395,
+  "parse_errors": 8
+}

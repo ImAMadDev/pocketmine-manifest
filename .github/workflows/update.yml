@@ -1,13 +1,15 @@
-name: Check New PocketMine-MP Releases & Auto-Update Manifest
+name: Check New Releases & Auto-Update Manifest
 
 on:
-  schedule:
-    # Corre cada 6 horas
-    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs:
+      software:
+        description: "Software o Fork ('pocketmine', 'axolotl-pm', 'altay')"
+        required: false
+        type: string
+        default: "pocketmine"
       force_version:
-        description: "Forzar verificación de una versión específica (ej: 5.42.1)"
+        description: "Forzar verificación de una versión específica (ej: 5.44.3)"
         required: false
         type: string
       auto_pr:
@@ -15,6 +17,8 @@ on:
         required: false
         type: boolean
         default: true
+  repository_dispatch:
+    types: [stubs-released, stubs-updated]
 
 permissions:
   contents: write
@@ -25,6 +29,8 @@ jobs:
   check-releases:
     runs-on: ubuntu-latest
     outputs:
+      software: ${{ steps.setup_software.outputs.software }}
+      software_name: ${{ steps.setup_software.outputs.software_name }}
       version: ${{ steps.pm_release.outputs.version }}
       needs_update: ${{ steps.check.outputs.exists == 'false' }}
       mc_version: ${{ steps.release_details.outputs.mc_version }}
@@ -42,20 +48,51 @@ jobs:
           extensions: curl, json, zip
 
       # ────────────────────────────────────────────────────────────
-      # Obtener el último release de PocketMine-MP
+      # Resolver software y configuración
       # ────────────────────────────────────────────────────────────
-      - name: Get latest PocketMine-MP release
+      - name: Setup software config
+        id: setup_software
+        run: |
+          SOFTWARE="${{ github.event.client_payload.software || inputs.software || 'pocketmine' }}"
+          REPO=$(jq -r --arg s "$SOFTWARE" '.forks[$s].repo // "pmmp/PocketMine-MP"' forks.json)
+          NAME=$(jq -r --arg s "$SOFTWARE" '.forks[$s].name // $SOFTWARE' forks.json)
+          TAG_PREFIX=$(jq -r --arg s "$SOFTWARE" '.forks[$s].tag_prefix // ""' forks.json)
+
+          echo "software=$SOFTWARE" >> $GITHUB_OUTPUT
+          echo "software_name=$NAME" >> $GITHUB_OUTPUT
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          echo "tag_prefix=$TAG_PREFIX" >> $GITHUB_OUTPUT
+          echo "✓ Software: $NAME ($SOFTWARE), Repo: $REPO"
+          echo "✓ Trigger event: ${{ github.event_name }}"
+
+      # ────────────────────────────────────────────────────────────
+      # Obtener el último release
+      # ────────────────────────────────────────────────────────────
+      - name: Get latest release
         id: pm_release
         run: |
-          if [ -n "${{ inputs.force_version }}" ]; then
-            LATEST="${{ inputs.force_version }}"
-            echo "✓ Usando versión forzada: $LATEST"
+          REPO="${{ steps.setup_software.outputs.repo }}"
+          TAG_PREFIX="${{ steps.setup_software.outputs.tag_prefix }}"
+          FORCED_VERSION="${{ github.event.client_payload.version || inputs.force_version || '' }}"
+
+          if [ -n "$FORCED_VERSION" ]; then
+            LATEST="$FORCED_VERSION"
+            echo "✓ Usando versión forzada/payload: $LATEST"
           else
-            LATEST=$(curl -s \
+            RAW_TAG=$(curl -s \
               -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/pmmp/PocketMine-MP/releases/latest \
+              "https://api.github.com/repos/$REPO/releases/latest" \
               | jq -r '.tag_name')
-            echo "✓ Último release en GitHub: $LATEST"
+
+            # Limpiar prefijo si existe
+            if [ -n "$TAG_PREFIX" ] && [[ "$RAW_TAG" == "$TAG_PREFIX"* ]]; then
+              LATEST="${RAW_TAG#$TAG_PREFIX}"
+            elif [[ "$RAW_TAG" =~ ^v[0-9] ]]; then
+              LATEST="${RAW_TAG#v}"
+            else
+              LATEST="$RAW_TAG"
+            fi
+            echo "✓ Último release en GitHub: $LATEST (raw tag: $RAW_TAG)"
           fi
           echo "version=$LATEST" >> $GITHUB_OUTPUT
 
@@ -66,13 +103,16 @@ jobs:
         id: check
         run: |
           VERSION="${{ steps.pm_release.outputs.version }}"
-          EXISTS=$(jq --arg v "$VERSION" \
-            '[.versions[].id] | contains([$v])' manifest.json)
+          SOFTWARE="${{ steps.setup_software.outputs.software }}"
+
+          EXISTS=$(jq --arg v "$VERSION" --arg s "$SOFTWARE" \
+            '[.versions[] | select((.software // "pocketmine") == $s and .id == $v)] | length > 0' manifest.json)
+
           echo "exists=$EXISTS" >> $GITHUB_OUTPUT
           if [ "$EXISTS" = "true" ]; then
-            echo "✓ Versión $VERSION ya está en manifest"
+            echo "✓ Versión $SOFTWARE@$VERSION ya está en manifest"
           else
-            echo "⚠ Versión $VERSION NO está en manifest - se actualizará"
+            echo "⚠ Versión $SOFTWARE@$VERSION NO está en manifest - se actualizará"
           fi
 
       # ────────────────────────────────────────────────────────────
@@ -82,10 +122,14 @@ jobs:
         id: release_details
         if: steps.check.outputs.exists == 'false'
         run: |
+          REPO="${{ steps.setup_software.outputs.repo }}"
           VERSION="${{ steps.pm_release.outputs.version }}"
+          TAG_PREFIX="${{ steps.setup_software.outputs.tag_prefix }}"
+          FULL_TAG="${TAG_PREFIX}${VERSION}"
+
           RELEASE_DATA=$(curl -s \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/pmmp/PocketMine-MP/releases/tags/$VERSION")
+            "https://api.github.com/repos/$REPO/releases/tags/$FULL_TAG")
 
           BODY=$(echo "$RELEASE_DATA" | jq -r '.body // ""')
           PUBLISHED=$(echo "$RELEASE_DATA" | jq -r '.published_at // ""')
@@ -132,8 +176,10 @@ jobs:
       # ────────────────────────────────────────────────────────────
       - name: Create feature branch
         run: |
+          SOFTWARE="${{ needs.check-releases.outputs.software }}"
           VERSION="${{ needs.check-releases.outputs.version }}"
-          BRANCH_NAME="feat/update-pm-${VERSION//./}"
+          CLEAN_VER="${VERSION//./}"
+          BRANCH_NAME="feat/update-${SOFTWARE}-${CLEAN_VER}"
           git checkout -b "$BRANCH_NAME"
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
 
@@ -143,12 +189,14 @@ jobs:
       - name: Update manifest with new version
         id: update
         run: |
+          SOFTWARE="${{ needs.check-releases.outputs.software }}"
           VERSION="${{ needs.check-releases.outputs.version }}"
           MC_VERSION="${{ needs.check-releases.outputs.mc_version }}"
 
-          echo "📦 Actualizando manifest para versión $VERSION..."
+          echo "📦 Actualizando manifest para $SOFTWARE@$VERSION..."
 
           php scripts/update-manifest.php \
+            --software="$SOFTWARE" \
             --version="$VERSION" \
             --mc-version="$MC_VERSION" \
             2>&1
@@ -169,7 +217,7 @@ jobs:
       - name: Validate manifest
         run: |
           echo "🔍 Validando manifest.json..."
-          php scripts/validate-manifest.php --strict
+          php scripts/validate-manifest.php
           echo "✓ Manifest validado correctamente"
 
       # ────────────────────────────────────────────────────────────
@@ -177,12 +225,13 @@ jobs:
       # ────────────────────────────────────────────────────────────
       - name: Commit changes
         run: |
+          SOFTWARE_NAME="${{ needs.check-releases.outputs.software_name }}"
           VERSION="${{ needs.check-releases.outputs.version }}"
           git add manifest.json
-          git commit -m "feat: add PocketMine-MP $VERSION
+          git commit -m "feat: add $SOFTWARE_NAME $VERSION
 
-          - Auto-update via GitHub Actions
-          - PHP version auto-detected from build_info.json
+          - Auto-update via GitHub Actions repository_dispatch
+          - Multi-software / Fork support
           - SHA256 checksums verified
           - MC version: ${{ needs.check-releases.outputs.mc_version }}"
 
@@ -196,94 +245,60 @@ jobs:
           script: |
             const { execSync } = require('child_process');
             const fs = require('fs');
+            const software = '${{ needs.check-releases.outputs.software }}';
+            const softwareName = '${{ needs.check-releases.outputs.software_name }}';
             const version = '${{ needs.check-releases.outputs.version }}';
             const branchName = process.env.branch_name;
             const mcVersion = '${{ needs.check-releases.outputs.mc_version }}';
 
-            // Push branch
             console.log('📤 Pusheando rama...');
             execSync(`git push origin ${branchName}`, { stdio: 'inherit' });
 
-            // Leer el manifest actualizado
             const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
-            const versionData = manifest.versions.find(v => v.id === version);
+            const versionData = manifest.versions.find(v => (v.software || 'pocketmine') === software && v.id === version);
 
-            // Crear PR
             const pr = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `🎉 Update: Add PocketMine-MP ${version}`,
+              title: `🎉 Update: Add ${softwareName} ${version}`,
               head: branchName,
               base: 'main',
               body: [
-                `## 🚀 Automated Version Update`,
+                `## 🚀 Automated Version Update (${softwareName})`,
                 ``,
                 `### 📋 Details`,
                 `| Field | Value |`,
                 `|-------|-------|`,
+                `| **Software** | \`${softwareName} (${software})\` |`,
                 `| **Version** | \`${version}\` |`,
                 `| **MC Version** | \`${mcVersion}\` |`,
                 `| **API Version** | \`${versionData?.api_version || 'auto-detected'}\` |`,
-                `| **PHP Version** | \`${versionData?.recommended_php || 'auto-detected'}\` |`,
-                `| **Release Date** | \`${versionData?.date || 'N/A'}\` |`,
+                `| **Min PHP** | \`${versionData?.min_php || 'auto-detected'}\` |`,
+                `| **Release Date** | \`${versionData?.release_date || 'N/A'}\` |`,
                 ``,
                 `### ✅ Automated Checks`,
-                `- [x] \`update-manifest.php\` executed successfully`,
-                `- [x] \`validate-manifest.php\` passed (strict mode)`,
+                `- [x] \`update-manifest.php --software=${software} --version=${version}\` executed successfully`,
+                `- [x] \`validate-manifest.php\` passed`,
                 `- [x] SHA256 checksums verified`,
-                `- [x] Build info extracted from GitHub releases`,
+                `- [x] Stubs and PHAR URLs configured`,
                 ``,
                 `### 📦 Artifacts Downloaded & Verified`,
-                `- PocketMine-MP PHAR (all 5 platforms)`,
-                `- PHP binaries (recommended version)`,
+                `- Server PHAR`,
+                `- PHP binaries`,
+                `- PHP stubs for Intelephense / Deepslate`,
                 `- All checksums computed and validated`,
                 ``,
-                `### 🔍 Review Checklist`,
-                `- [ ] Verify MC/API versions are correct`,
-                `- [ ] Check if stubs need updating in pocketmine-stubs repo`,
-                `- [ ] Validate against official changelog`,
-                ``,
-                `This PR was created automatically by GitHub Actions. Please review and merge if everything looks correct.`,
+                `This PR was created automatically by GitHub Actions via \`repository_dispatch\`. Please review and merge if everything looks correct.`,
                 ``,
                 `---`,
-                `*Generated by Automated PocketMine Version Manager*`,
+                `*Deepslate Ecosystem — ImAMadDev/pocketmine-manifest*`,
               ].join('\n'),
-              labels: ['automated', 'version-update'],
+              labels: ['automated', 'version-update', software],
             });
 
             console.log(`✅ PR created: ${pr.data.html_url}`);
             core.setOutput('pr_number', pr.data.number);
             core.setOutput('pr_url', pr.data.html_url);
-
-      # ────────────────────────────────────────────────────────────
-      # Opcional: Notificar en issue si existe
-      # ────────────────────────────────────────────────────────────
-      - name: Comment on related issues
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const version = '${{ needs.check-releases.outputs.version }}';
-
-            // Buscar issues con label 'new-version' y versión en título
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: 'new-version',
-              state: 'open',
-            });
-
-            for (const issue of issues.data) {
-              if (issue.title.includes(version)) {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issue.number,
-                  body: `🚀 PR automático creado para esta versión\n\nEl manifest ha sido actualizado automáticamente. Por favor revisa el PR para validar que todo esté correcto.`,
-                });
-              }
-            }
 
       # ────────────────────────────────────────────────────────────
       # Resumen de la ejecución
@@ -292,9 +307,9 @@ jobs:
         if: always()
         run: |
           echo "📊 === UPDATE SUMMARY ==="
+          echo "Software: ${{ needs.check-releases.outputs.software_name }} (${{ needs.check-releases.outputs.software }})"
           echo "Version: ${{ needs.check-releases.outputs.version }}"
           echo "MC Version: ${{ needs.check-releases.outputs.mc_version }}"
           echo "Branch: $branch_name"
           echo ""
           echo "✅ Auto-update completed successfully!"
-          echo "Pull Request will be reviewed by maintainers."

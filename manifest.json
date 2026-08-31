@@ -4,6 +4,7 @@
     "versions": [
         {
             "id": "5.44.3",
+            "software": "pocketmine",
             "api_version": "5.44.0",
             "release_date": "2026-08-05",
             "stability": "stable",
@@ -12,6 +13,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.3/changelogs/5.44.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.3/PocketMine-MP.phar",
+                "server_phar_sha256": "d8b4d87a64124d83659f629c87d6a8e0e142192f6c719fe4684272ff44105539",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.3/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "d8b4d87a64124d83659f629c87d6a8e0e142192f6c719fe4684272ff44105539",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -30,6 +33,7 @@
         },
         {
             "id": "4.23.6",
+            "software": "pocketmine",
             "api_version": "4.23.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -38,6 +42,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/changelogs/4.23.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/PocketMine-MP.phar",
+                "server_phar_sha256": "8e1e1b2c4e660df6c9f4526b6b14b990ba191360ea65e47f1abc166068b79026",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.23.6/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "8e1e1b2c4e660df6c9f4526b6b14b990ba191360ea65e47f1abc166068b79026",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -56,6 +62,7 @@
         },
         {
             "id": "4.24.0",
+            "software": "pocketmine",
             "api_version": "4.24.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -64,6 +71,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/changelogs/4.24.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/PocketMine-MP.phar",
+                "server_phar_sha256": "162fffba3f4d3c6b504fac2062a4250a00291dd439c1190f3fa244529d61d827",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.24.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "162fffba3f4d3c6b504fac2062a4250a00291dd439c1190f3fa244529d61d827",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -82,6 +91,7 @@
         },
         {
             "id": "4.25.0",
+            "software": "pocketmine",
             "api_version": "4.25.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -90,6 +100,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/changelogs/4.25.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/PocketMine-MP.phar",
+                "server_phar_sha256": "9796973c881a53825dc49334610102d7dfbf864d3dd6bc6add47aac1a49a1c29",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.25.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "9796973c881a53825dc49334610102d7dfbf864d3dd6bc6add47aac1a49a1c29",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -108,6 +120,7 @@
         },
         {
             "id": "4.26.0",
+            "software": "pocketmine",
             "api_version": "4.26.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -116,6 +129,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/changelogs/4.26.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/PocketMine-MP.phar",
+                "server_phar_sha256": "b179fc35bd9750bdd7c6ce924c5e860bda80b6329763af691224fe17af7753f4",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/4.26.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "b179fc35bd9750bdd7c6ce924c5e860bda80b6329763af691224fe17af7753f4",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -134,6 +149,7 @@
         },
         {
             "id": "5.4.4",
+            "software": "pocketmine",
             "api_version": "5.4.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -142,6 +158,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.4.4/changelogs/5.4.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.4.4/PocketMine-MP.phar",
+                "server_phar_sha256": "783a25d0051ce0782fcd1b82e2c17686df84f4afea78cf986fc35b808d31fd4b",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.4.4/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "783a25d0051ce0782fcd1b82e2c17686df84f4afea78cf986fc35b808d31fd4b",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -160,6 +178,7 @@
         },
         {
             "id": "5.5.0",
+            "software": "pocketmine",
             "api_version": "5.5.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -168,6 +187,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.5.0/changelogs/5.5.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.5.0/PocketMine-MP.phar",
+                "server_phar_sha256": "ec20126d8327ec00af182552eb39ea1bbc98411e0bcc99ce7d7d72c05bfd5ec8",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.5.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "ec20126d8327ec00af182552eb39ea1bbc98411e0bcc99ce7d7d72c05bfd5ec8",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -186,6 +207,7 @@
         },
         {
             "id": "5.6.1",
+            "software": "pocketmine",
             "api_version": "5.6.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -194,6 +216,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.6.1/changelogs/5.6.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.6.1/PocketMine-MP.phar",
+                "server_phar_sha256": "4c95c8403ad778569912dbe2118c3f7a21c48e669a3b4411099a4c32eab72ef7",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.6.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "4c95c8403ad778569912dbe2118c3f7a21c48e669a3b4411099a4c32eab72ef7",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -212,6 +236,7 @@
         },
         {
             "id": "5.7.1",
+            "software": "pocketmine",
             "api_version": "5.7.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -220,6 +245,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.7.1/changelogs/5.7.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.7.1/PocketMine-MP.phar",
+                "server_phar_sha256": "4ee1e9d90fc41ac4a8fbba59a00ba40f5316f960ff75a081d1ef1bfef5f8fb18",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.7.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "4ee1e9d90fc41ac4a8fbba59a00ba40f5316f960ff75a081d1ef1bfef5f8fb18",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -238,6 +265,7 @@
         },
         {
             "id": "5.8.2",
+            "software": "pocketmine",
             "api_version": "5.8.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -246,6 +274,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.8.2/changelogs/5.8.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.8.2/PocketMine-MP.phar",
+                "server_phar_sha256": "6b758f115c4ea6a667d9d5dd44da9efb90f64bd68ff43705c38bf6bf617fbc1a",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.8.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "6b758f115c4ea6a667d9d5dd44da9efb90f64bd68ff43705c38bf6bf617fbc1a",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -264,6 +294,7 @@
         },
         {
             "id": "5.9.0",
+            "software": "pocketmine",
             "api_version": "5.9.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -272,6 +303,8 @@
             "php_binary_tag": "pm5-php-8.1-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.9.0/changelogs/5.9.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.9.0/PocketMine-MP.phar",
+                "server_phar_sha256": "c86b88c85b8031529f3b0162c6f8bb1edefa94029dd280a05ba4a685e47c84ac",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.9.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "c86b88c85b8031529f3b0162c6f8bb1edefa94029dd280a05ba4a685e47c84ac",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.1-latest/PHP-8.1-Windows-x64-PM5.zip",
@@ -290,6 +323,7 @@
         },
         {
             "id": "5.10.0",
+            "software": "pocketmine",
             "api_version": "5.10.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -298,6 +332,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.10.0/changelogs/5.10.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.10.0/PocketMine-MP.phar",
+                "server_phar_sha256": "b04353c2068715334394e337b7cc5c5069db25e17dd03e9aa36a0c29624a8db5",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.10.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "b04353c2068715334394e337b7cc5c5069db25e17dd03e9aa36a0c29624a8db5",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -316,6 +352,7 @@
         },
         {
             "id": "5.11.2",
+            "software": "pocketmine",
             "api_version": "5.11.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -324,6 +361,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.11.2/changelogs/5.11.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.11.2/PocketMine-MP.phar",
+                "server_phar_sha256": "a52200a8bdf8fbfd4abe75727bf443471a6f843426565ee4b9f57f82e495ffac",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.11.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "a52200a8bdf8fbfd4abe75727bf443471a6f843426565ee4b9f57f82e495ffac",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -342,6 +381,7 @@
         },
         {
             "id": "5.12.1",
+            "software": "pocketmine",
             "api_version": "5.12.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -350,6 +390,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.12.1/changelogs/5.12.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.12.1/PocketMine-MP.phar",
+                "server_phar_sha256": "168bfcd4c3696fe23c1b0e483ea8e3940115f5b5ac61d3c4606479383efffe86",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.12.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "168bfcd4c3696fe23c1b0e483ea8e3940115f5b5ac61d3c4606479383efffe86",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -368,6 +410,7 @@
         },
         {
             "id": "5.13.0",
+            "software": "pocketmine",
             "api_version": "5.13.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -376,6 +419,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.13.0/changelogs/5.13.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.13.0/PocketMine-MP.phar",
+                "server_phar_sha256": "2b704a1afe118f4f241ccdc4f87fbc0ec3b97efe16fb99f823f255b2597cdb02",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.13.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "2b704a1afe118f4f241ccdc4f87fbc0ec3b97efe16fb99f823f255b2597cdb02",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -394,6 +439,7 @@
         },
         {
             "id": "5.14.1",
+            "software": "pocketmine",
             "api_version": "5.14.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -402,6 +448,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.14.1/changelogs/5.14.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.14.1/PocketMine-MP.phar",
+                "server_phar_sha256": "b4450f12883c2ba3489aefc06f874d8c7e0ce2e5c368baaa50c9be041bbabdda",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.14.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "b4450f12883c2ba3489aefc06f874d8c7e0ce2e5c368baaa50c9be041bbabdda",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -420,6 +468,7 @@
         },
         {
             "id": "5.15.0",
+            "software": "pocketmine",
             "api_version": "5.15.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -428,6 +477,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.15.0/changelogs/5.15.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.15.0/PocketMine-MP.phar",
+                "server_phar_sha256": "5e33e66d645fdface1d5fd5ab9013f20182fa996d41f7c69d22c750b032638a7",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.15.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "5e33e66d645fdface1d5fd5ab9013f20182fa996d41f7c69d22c750b032638a7",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -446,6 +497,7 @@
         },
         {
             "id": "5.16.0",
+            "software": "pocketmine",
             "api_version": "5.16.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -454,6 +506,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.16.0/changelogs/5.16.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.16.0/PocketMine-MP.phar",
+                "server_phar_sha256": "867961a1d88b18fc2d58de1548fbc3495452717bea54d7c2138bf32a7235350a",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.16.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "867961a1d88b18fc2d58de1548fbc3495452717bea54d7c2138bf32a7235350a",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -472,6 +526,7 @@
         },
         {
             "id": "5.17.1",
+            "software": "pocketmine",
             "api_version": "5.17.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -480,6 +535,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.17.1/changelogs/5.17.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.17.1/PocketMine-MP.phar",
+                "server_phar_sha256": "f63550806ca8bd268ec948d33fbeaef52409c479b8eabe6d222c9f335e9774dd",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.17.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "f63550806ca8bd268ec948d33fbeaef52409c479b8eabe6d222c9f335e9774dd",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -498,6 +555,7 @@
         },
         {
             "id": "5.18.1",
+            "software": "pocketmine",
             "api_version": "5.18.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -506,6 +564,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.18.1/changelogs/5.18.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.18.1/PocketMine-MP.phar",
+                "server_phar_sha256": "7835df34db176f9dc9c891a27ce344f9cc2a0098e25ac5973613aa86a8d8c9bb",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.18.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "7835df34db176f9dc9c891a27ce344f9cc2a0098e25ac5973613aa86a8d8c9bb",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -524,6 +584,7 @@
         },
         {
             "id": "5.19.0",
+            "software": "pocketmine",
             "api_version": "5.19.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -532,6 +593,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.19.0/changelogs/5.19.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.19.0/PocketMine-MP.phar",
+                "server_phar_sha256": "777f296539811c98aa1d5454f733a457b96ff210f20069f7eeb67da97dd532bc",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.19.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "777f296539811c98aa1d5454f733a457b96ff210f20069f7eeb67da97dd532bc",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -550,6 +613,7 @@
         },
         {
             "id": "5.20.1",
+            "software": "pocketmine",
             "api_version": "5.20.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -558,6 +622,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.20.1/changelogs/5.20.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.20.1/PocketMine-MP.phar",
+                "server_phar_sha256": "24d69e3c475f562aa448c6e728bed17bc80245446cfe3330bf871275c2c16a9a",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.20.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "24d69e3c475f562aa448c6e728bed17bc80245446cfe3330bf871275c2c16a9a",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -576,6 +642,7 @@
         },
         {
             "id": "5.21.2",
+            "software": "pocketmine",
             "api_version": "5.21.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -584,6 +651,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/changelogs/5.21.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/PocketMine-MP.phar",
+                "server_phar_sha256": "0612f64d1457ebcbb68ce862e4bd58a44c8fcf478c766c004c380d8ade4602d9",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.21.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "0612f64d1457ebcbb68ce862e4bd58a44c8fcf478c766c004c380d8ade4602d9",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -602,6 +671,7 @@
         },
         {
             "id": "5.22.0",
+            "software": "pocketmine",
             "api_version": "5.22.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -610,6 +680,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.22.0/changelogs/5.22.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.22.0/PocketMine-MP.phar",
+                "server_phar_sha256": "d490e17193f67f815b6dec63ab440483ef72351b8ff4f65703beaf25270c3184",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.22.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "d490e17193f67f815b6dec63ab440483ef72351b8ff4f65703beaf25270c3184",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -628,6 +700,7 @@
         },
         {
             "id": "5.23.3",
+            "software": "pocketmine",
             "api_version": "5.23.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -636,6 +709,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.23.3/changelogs/5.23.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.23.3/PocketMine-MP.phar",
+                "server_phar_sha256": "b10978eed8135570464a91094c771673e940793d6a35ee8fcc4c8722776c61f4",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.23.3/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "b10978eed8135570464a91094c771673e940793d6a35ee8fcc4c8722776c61f4",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -654,6 +729,7 @@
         },
         {
             "id": "5.24.0",
+            "software": "pocketmine",
             "api_version": "5.24.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -662,6 +738,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.24.0/changelogs/5.24.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.24.0/PocketMine-MP.phar",
+                "server_phar_sha256": "dbead73aff4b5902c4845b6b167a2f26e53817cf88f9d00954cf7bcb0ba7675a",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.24.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "dbead73aff4b5902c4845b6b167a2f26e53817cf88f9d00954cf7bcb0ba7675a",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -680,6 +758,7 @@
         },
         {
             "id": "5.25.2",
+            "software": "pocketmine",
             "api_version": "5.25.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -688,6 +767,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/changelogs/5.25.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/PocketMine-MP.phar",
+                "server_phar_sha256": "8360dc331fd21c207ab59cff4e0f26e2fd93c67e9c81bae230d4b244bdac126f",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.25.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "8360dc331fd21c207ab59cff4e0f26e2fd93c67e9c81bae230d4b244bdac126f",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -706,6 +787,7 @@
         },
         {
             "id": "5.26.0",
+            "software": "pocketmine",
             "api_version": "5.26.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -714,6 +796,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.26.0/changelogs/5.26.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.26.0/PocketMine-MP.phar",
+                "server_phar_sha256": "2395e44a94abe89807086cd3ad1294c60dd21236fe7e152e3f64bdfc2c440eb1",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.26.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "2395e44a94abe89807086cd3ad1294c60dd21236fe7e152e3f64bdfc2c440eb1",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -732,6 +816,7 @@
         },
         {
             "id": "5.27.1",
+            "software": "pocketmine",
             "api_version": "5.27.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -740,6 +825,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.27.1/changelogs/5.27.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.27.1/PocketMine-MP.phar",
+                "server_phar_sha256": "166ae87318d0fdf007a7263e34ca531c0f52e270f688fbcb9dd99cd678a057b0",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.27.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "166ae87318d0fdf007a7263e34ca531c0f52e270f688fbcb9dd99cd678a057b0",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -758,6 +845,7 @@
         },
         {
             "id": "5.28.2",
+            "software": "pocketmine",
             "api_version": "5.28.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -766,6 +854,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/changelogs/5.28.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/PocketMine-MP.phar",
+                "server_phar_sha256": "178a81a2bbea6db36466c9facaf399109431e0af32027249823fe4a06e640bac",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.28.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "178a81a2bbea6db36466c9facaf399109431e0af32027249823fe4a06e640bac",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -784,6 +874,7 @@
         },
         {
             "id": "5.29.0",
+            "software": "pocketmine",
             "api_version": "5.29.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -792,6 +883,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/changelogs/5.29.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/PocketMine-MP.phar",
+                "server_phar_sha256": "cceb54bf9dec26f64e608ae7fff9a336c478e34cb4e456ca0b72242a2f44657c",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.29.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "cceb54bf9dec26f64e608ae7fff9a336c478e34cb4e456ca0b72242a2f44657c",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -810,6 +903,7 @@
         },
         {
             "id": "5.30.1",
+            "software": "pocketmine",
             "api_version": "5.30.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -818,6 +912,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.30.1/changelogs/5.30.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.30.1/PocketMine-MP.phar",
+                "server_phar_sha256": "123b093fc33a17046f67bee936b043275e5d80f30877144724e274d7e70617d9",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.30.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "123b093fc33a17046f67bee936b043275e5d80f30877144724e274d7e70617d9",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -836,6 +932,7 @@
         },
         {
             "id": "5.31.0",
+            "software": "pocketmine",
             "api_version": "5.31.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -844,6 +941,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.31.0/changelogs/5.31.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.31.0/PocketMine-MP.phar",
+                "server_phar_sha256": "7fde0ed43303942c86e6ebd626a6b005c34f7b294986938b7a9597c5e54570ea",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.31.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "7fde0ed43303942c86e6ebd626a6b005c34f7b294986938b7a9597c5e54570ea",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -862,6 +961,7 @@
         },
         {
             "id": "5.32.1",
+            "software": "pocketmine",
             "api_version": "5.32.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -870,6 +970,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.32.1/changelogs/5.32.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.32.1/PocketMine-MP.phar",
+                "server_phar_sha256": "2d23385f1819a261f92f3c5708d316aa78a12d777871fd80a54f6764eefabcec",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.32.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "2d23385f1819a261f92f3c5708d316aa78a12d777871fd80a54f6764eefabcec",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -888,6 +990,7 @@
         },
         {
             "id": "5.33.2",
+            "software": "pocketmine",
             "api_version": "5.33.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -896,6 +999,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.33.2/changelogs/5.33.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.33.2/PocketMine-MP.phar",
+                "server_phar_sha256": "dd8a06fae04afe2bf884b8d4cccdd6710e5b4539df57e0c7620d17d58de53ca2",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.33.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "dd8a06fae04afe2bf884b8d4cccdd6710e5b4539df57e0c7620d17d58de53ca2",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -914,6 +1019,7 @@
         },
         {
             "id": "5.34.1",
+            "software": "pocketmine",
             "api_version": "5.34.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -922,6 +1028,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.34.1/changelogs/5.34.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.34.1/PocketMine-MP.phar",
+                "server_phar_sha256": "097463cdb2459ba85ed86909e1209cb915a56d4e3968707216e19967ec2d8dd9",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.34.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "097463cdb2459ba85ed86909e1209cb915a56d4e3968707216e19967ec2d8dd9",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -940,6 +1048,7 @@
         },
         {
             "id": "5.35.1",
+            "software": "pocketmine",
             "api_version": "5.35.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -948,6 +1057,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/changelogs/5.35.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/PocketMine-MP.phar",
+                "server_phar_sha256": "25204f20394d5c955eeb99ae108acd8e7b262f9ea6d6138b52b84d5541056f69",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.35.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "25204f20394d5c955eeb99ae108acd8e7b262f9ea6d6138b52b84d5541056f69",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -966,6 +1077,7 @@
         },
         {
             "id": "5.36.0",
+            "software": "pocketmine",
             "api_version": "5.36.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -974,6 +1086,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.36.0/changelogs/5.36.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.36.0/PocketMine-MP.phar",
+                "server_phar_sha256": "49eb3fe1f2057c1b1a0bed1752e067795893ea69c916bb9f24b537dbec0a8e4b",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.36.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "49eb3fe1f2057c1b1a0bed1752e067795893ea69c916bb9f24b537dbec0a8e4b",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -992,6 +1106,7 @@
         },
         {
             "id": "5.37.3",
+            "software": "pocketmine",
             "api_version": "5.37.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1000,6 +1115,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.37.3/changelogs/5.37.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.37.3/PocketMine-MP.phar",
+                "server_phar_sha256": "35da1ad391ea0e03cf4330703483145dd4468d517d3159271663d3f698117144",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.37.3/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "35da1ad391ea0e03cf4330703483145dd4468d517d3159271663d3f698117144",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1018,6 +1135,7 @@
         },
         {
             "id": "5.38.0",
+            "software": "pocketmine",
             "api_version": "5.38.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1026,6 +1144,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.38.0/changelogs/5.38.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.38.0/PocketMine-MP.phar",
+                "server_phar_sha256": "35af13ab650dbedb88f943588be6b8785943b41e1b1a4599d8a00f6f44bcf612",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.38.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "35af13ab650dbedb88f943588be6b8785943b41e1b1a4599d8a00f6f44bcf612",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1044,6 +1164,7 @@
         },
         {
             "id": "5.39.3",
+            "software": "pocketmine",
             "api_version": "5.39.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1052,6 +1173,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.39.3/changelogs/5.39.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.39.3/PocketMine-MP.phar",
+                "server_phar_sha256": "5a91169fdf63e250b926696a579df15284646c6e7c3bf2adb4b9bab2b62688e7",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.39.3/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "5a91169fdf63e250b926696a579df15284646c6e7c3bf2adb4b9bab2b62688e7",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1070,6 +1193,7 @@
         },
         {
             "id": "5.40.0",
+            "software": "pocketmine",
             "api_version": "5.40.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1078,6 +1202,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.40.0/changelogs/5.40.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.40.0/PocketMine-MP.phar",
+                "server_phar_sha256": "6f0558b08742483d3c8c529e8e88adddbbbd3f98389d80a6f009e5bc4f889f55",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.40.0/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "6f0558b08742483d3c8c529e8e88adddbbbd3f98389d80a6f009e5bc4f889f55",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1096,6 +1222,7 @@
         },
         {
             "id": "5.41.1",
+            "software": "pocketmine",
             "api_version": "5.41.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1104,6 +1231,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.41.1/changelogs/5.41.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.41.1/PocketMine-MP.phar",
+                "server_phar_sha256": "1dfc92a775e18705280688adfecadfb38a775d012c6cdbf461b148cec96fd312",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.41.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "1dfc92a775e18705280688adfecadfb38a775d012c6cdbf461b148cec96fd312",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1122,6 +1251,7 @@
         },
         {
             "id": "5.42.1",
+            "software": "pocketmine",
             "api_version": "5.42.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1130,6 +1260,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.1/changelogs/5.42.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.1/PocketMine-MP.phar",
+                "server_phar_sha256": "38893f32280505a620577dca0a892c28582ce37c38fe68d8f711183259c7a234",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.42.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "38893f32280505a620577dca0a892c28582ce37c38fe68d8f711183259c7a234",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1148,6 +1280,7 @@
         },
         {
             "id": "5.43.1",
+            "software": "pocketmine",
             "api_version": "5.43.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1156,6 +1289,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/changelogs/5.43.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/PocketMine-MP.phar",
+                "server_phar_sha256": "224f32cfaf9e9ec53102db4e3ab8bc1621a3b8c6b445b650aabbeaf79f94cf57",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "224f32cfaf9e9ec53102db4e3ab8bc1621a3b8c6b445b650aabbeaf79f94cf57",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1174,6 +1309,7 @@
         },
         {
             "id": "5.43.2",
+            "software": "pocketmine",
             "api_version": "5.43.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1182,6 +1318,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.2/changelogs/5.43.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.2/PocketMine-MP.phar",
+                "server_phar_sha256": "b3c3f65c74a865b3a5e778d870b7da25477253d7d254c0ba682c59b6a7be7dce",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.43.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "b3c3f65c74a865b3a5e778d870b7da25477253d7d254c0ba682c59b6a7be7dce",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1200,6 +1338,7 @@
         },
         {
             "id": "5.44.1",
+            "software": "pocketmine",
             "api_version": "5.44.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1208,6 +1347,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/changelogs/5.44.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/PocketMine-MP.phar",
+                "server_phar_sha256": "0b361e1416582eba59b12559f7073204f78c2e7b981ea3ff74b311a362286bb5",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.1/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "0b361e1416582eba59b12559f7073204f78c2e7b981ea3ff74b311a362286bb5",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1226,6 +1367,7 @@
         },
         {
             "id": "5.44.2",
+            "software": "pocketmine",
             "api_version": "5.44.0",
             "release_date": "2026-07-01",
             "stability": "stable",
@@ -1234,6 +1376,8 @@
             "php_binary_tag": "pm5-php-8.2-latest",
             "changelog_url": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/changelogs/5.44.md",
             "downloads": {
+                "server_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/PocketMine-MP.phar",
+                "server_phar_sha256": "f101d1b3873cc21c812c64273b7669188e71411ce93e99e348bdfa2f84d3645d",
                 "pocketmine_phar": "https://github.com/pmmp/PocketMine-MP/releases/download/5.44.2/PocketMine-MP.phar",
                 "pocketmine_phar_sha256": "f101d1b3873cc21c812c64273b7669188e71411ce93e99e348bdfa2f84d3645d",
                 "php_windows_x64": "https://github.com/pmmp/PHP-Binaries/releases/download/pm5-php-8.2-latest/PHP-8.2-Windows-x64-PM5.zip",
@@ -1250,5 +1394,22 @@
                 "checksum_sha256": "3b0ea899bc4558f5cb3e7d0e9d5542d988f7e4ee116772b39f6caed4affcfeca"
             }
         }
-    ]
+    ],
+    "softwares": {
+        "pocketmine": {
+            "name": "PocketMine-MP",
+            "repo": "pmmp/PocketMine-MP",
+            "description": "Official PocketMine-MP server software"
+        },
+        "axolotl-pm": {
+            "name": "Axolotl-PM",
+            "repo": "axolotl-pm/PocketMine-MP",
+            "description": "High-performance PocketMine-MP fork"
+        },
+        "altay": {
+            "name": "Altay",
+            "repo": "altayofficial/Altay",
+            "description": "Altay PocketMine-MP fork"
+        }
+    }
 }

@@ -1,10 +1,9 @@
 """
-Fetches all releases from a GitHub repository using the GitHub API.
-For each release, executes: php scripts/update-manifest.php --version=X.X.X
-
-Repo: ImAMadDev/pocketmine-stubs
+Fetches releases from GitHub repositories using the GitHub API with multi-software (forks) support.
+For each release, executes: php scripts/update-manifest.php --software=NAME --version=X.X.X
 """
 
+import argparse
 import concurrent.futures
 import json
 import os
@@ -13,11 +12,29 @@ import sys
 import urllib.error
 import urllib.request
 
-OWNER = "ImAMadDev"
-REPO = "pocketmine-stubs"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 UPDATE_SCRIPT = os.path.join(SCRIPT_DIR, "update-manifest.php")
 MANIFEST_PATH = os.path.join(os.path.dirname(SCRIPT_DIR), "manifest.json")
+FORKS_PATH = os.path.join(os.path.dirname(SCRIPT_DIR), "forks.json")
+
+
+def load_forks_config(path: str = FORKS_PATH) -> dict:
+    if not os.path.exists(path):
+        return {
+            "forks": {
+                "pocketmine": {"name": "PocketMine-MP", "repo": "pmmp/PocketMine-MP"}
+            }
+        }
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"⚠ No se puede leer forks.json: {e}")
+        return {
+            "forks": {
+                "pocketmine": {"name": "PocketMine-MP", "repo": "pmmp/PocketMine-MP"}
+            }
+        }
 
 
 def fetch_all_releases(owner: str, repo: str, token: str | None = None) -> list[dict]:
@@ -76,16 +93,29 @@ def load_manifest():
         return {"versions": []}
 
 
-def get_existing_versions():
-    """Obtener versiones que ya están en manifest.json"""
+def get_existing_versions(software: str = "pocketmine") -> set[str]:
+    """Obtener versiones de un software específico que ya están en manifest.json"""
     manifest = load_manifest()
-    return {v.get("id") for v in manifest.get("versions", [])}
+    return {
+        v.get("id")
+        for v in manifest.get("versions", [])
+        if v.get("software", "pocketmine") == software
+    }
 
 
-def run_update_script(version: str) -> bool:
-    """Ejecutar update-manifest.php para una versión"""
-    print(f"  [↓] Iniciando versión {version}...", flush=True)
-    cmd = ["php", UPDATE_SCRIPT, f"--version={version}"]
+def clean_tag_version(tag: str, tag_prefix: str = "") -> str:
+    """Remover prefijo de tag para obtener la versión semver limpia"""
+    if tag_prefix and tag.startswith(tag_prefix):
+        return tag[len(tag_prefix):]
+    if tag.startswith("v") and len(tag) > 1 and tag[1].isdigit():
+        return tag[1:]
+    return tag
+
+
+def run_update_script(software: str, version: str) -> bool:
+    """Ejecutar update-manifest.php para una versión y software"""
+    print(f"  [↓] Iniciando {software}@{version}...", flush=True)
+    cmd = ["php", UPDATE_SCRIPT, f"--software={software}", f"--version={version}"]
 
     try:
         result = subprocess.run(
@@ -98,11 +128,8 @@ def run_update_script(version: str) -> bool:
         if result.returncode == 0:
             return True
         else:
-            print(
-                f"    ✗ Error: {result.stderr[:100]}"
-                if result.stderr
-                else "    ✗ Error desconocido"
-            )
+            err_msg = result.stderr.strip() or result.stdout.strip()
+            print(f"    ✗ Error: {err_msg[:120]}")
             return False
 
     except subprocess.TimeoutExpired:
@@ -116,9 +143,9 @@ def run_update_script(version: str) -> bool:
         return False
 
 
-def print_releases(releases: list[dict]) -> None:
+def print_releases(releases: list[dict], software: str) -> None:
     if not releases:
-        print("No se encontraron releases.")
+        print(f"No se encontraron releases para {software}.")
         return
 
     print(f"\n{'─' * 70}")
@@ -134,7 +161,7 @@ def print_releases(releases: list[dict]) -> None:
         print(f"  {tag:<25} {name:<30} {date}{prerel}{draft}")
 
     print(f"{'─' * 70}")
-    print(f"  Total: {len(releases)} releases\n")
+    print(f"  Total: {len(releases)} releases para {software}\n")
 
 
 def save_json(releases: list[dict], path: str) -> None:
@@ -143,70 +170,87 @@ def save_json(releases: list[dict], path: str) -> None:
     print(f"✓ Datos guardados en '{path}'")
 
 
-def process_releases(releases: list[dict], skip_existing: bool = True, max_workers: int = 1) -> None:
-    """Procesar releases y ejecutar update-manifest.php para cada una.
-    
-    NOTA: Por defecto usa max_workers=1 (secuencial) para evitar race conditions
-    al escribir manifest.json. Usar --parallel para habilitar concurrencia.
-    """
+def process_software_releases(
+    software: str,
+    fork_config: dict,
+    token: str | None = None,
+    skip_existing: bool = True,
+    max_workers: int = 1,
+    output: str | None = None,
+) -> None:
+    repo_full = fork_config.get("repo", "")
+    if "/" not in repo_full:
+        print(f"✗ Repositorio inválido para {software}: '{repo_full}'")
+        return
+
+    owner, repo = repo_full.split("/", 1)
+    tag_prefix = fork_config.get("tag_prefix", "")
+
+    print(f"\nObteniendo releases para {software} ({owner}/{repo})...\n")
+    releases = fetch_all_releases(owner, repo, token)
+    print_releases(releases, software)
+
+    if output:
+        out_file = output if not output.endswith(".json") else output.replace(".json", f"_{software}.json")
+        save_json(releases, out_file)
 
     if not os.path.exists(UPDATE_SCRIPT):
         print(f"\n✗ Script no encontrado: {UPDATE_SCRIPT}")
         return
 
-    existing = get_existing_versions() if skip_existing else set()
+    existing = get_existing_versions(software) if skip_existing else set()
 
-    # Filtrar versiones a procesar
     versions_to_process = []
     skipped = 0
     for release in releases:
-        version = release.get("tag_name")
-        if not version:
+        tag = release.get("tag_name")
+        if not tag:
             continue
-        if skip_existing and version in existing:
+        clean_v = clean_tag_version(tag, tag_prefix)
+        if skip_existing and clean_v in existing:
             skipped += 1
             continue
-        versions_to_process.append(version)
+        versions_to_process.append(clean_v)
 
     print(f"\n{'─' * 70}")
     mode = "Secuencial" if max_workers == 1 else f"Paralelo ({max_workers} hilos)"
-    print(f"📦 Procesando {len(versions_to_process)} releases ({mode})...")
-    if max_workers > 1:
-        print(f"  ⚠ Modo paralelo: posibles race conditions en manifest.json")
+    print(f"📦 Procesando {len(versions_to_process)} releases de {software} ({mode})...")
     if skipped > 0:
         print(f"  ⊘ Saltadas (ya existen): {skipped}")
     print(f"{'─' * 70}\n")
+
+    if not versions_to_process:
+        print(f"No hay versiones nuevas para procesar en {software}.")
+        return
 
     added = 0
     failed = 0
     completed = 0
     total = len(versions_to_process)
 
-    if not versions_to_process:
-        print("No hay versiones nuevas para procesar.")
-        return
-
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_version = {executor.submit(run_update_script, v): v for v in versions_to_process}
-        
+        future_to_version = {
+            executor.submit(run_update_script, software, v): v
+            for v in versions_to_process
+        }
+
         for future in concurrent.futures.as_completed(future_to_version):
             version = future_to_version[future]
             completed += 1
             try:
                 success = future.result()
                 if success:
-                    print(f"  ✓ [{completed}/{total}] Versión {version} procesada correctamente", flush=True)
+                    print(f"  ✓ [{completed}/{total}] {software}@{version} procesada correctamente", flush=True)
                     added += 1
                 else:
-                    print(f"  ✗ [{completed}/{total}] Versión {version} falló al procesar", flush=True)
+                    print(f"  ✗ [{completed}/{total}] {software}@{version} falló al procesar", flush=True)
                     failed += 1
             except Exception as e:
-                print(f"  ✗ [{completed}/{total}] Versión {version} lanzó excepción: {e}", flush=True)
+                print(f"  ✗ [{completed}/{total}] {software}@{version} lanzó excepción: {e}", flush=True)
                 failed += 1
 
-    # Resumen
     print(f"\n{'─' * 70}")
-    print("📊 Resumen:")
+    print(f"📊 Resumen ({software}):")
     print(f"  ✓ Agregadas: {added}")
     if skipped > 0:
         print(f"  ⊘ Saltadas (ya existen): {skipped}")
@@ -217,13 +261,21 @@ def process_releases(releases: list[dict], skip_existing: bool = True, max_worke
 
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser(
-        description="Obtiene todos los releases de un repo de GitHub y ejecuta update-manifest.php para cada uno."
+        description="Obtiene releases de repositorios de PocketMine y forks, ejecutando update-manifest.php."
     )
-    parser.add_argument("--owner", default=OWNER, help="Dueño del repositorio")
-    parser.add_argument("--repo", default=REPO, help="Nombre del repositorio")
+    parser.add_argument(
+        "--software",
+        default="pocketmine",
+        help="Software / fork a consultar ('pocketmine', 'axolotl-pm', 'altay', o 'all')",
+    )
+    parser.add_argument(
+        "--forks-file",
+        default=FORKS_PATH,
+        help="Ruta al archivo forks.json",
+    )
+    parser.add_argument("--owner", default=None, help="Dueño del repositorio (override)")
+    parser.add_argument("--repo", default=None, help="Nombre del repositorio (override)")
     parser.add_argument(
         "--token", default=None, help="GitHub Personal Access Token (opcional)"
     )
@@ -244,21 +296,45 @@ if __name__ == "__main__":
     parser.add_argument(
         "--parallel",
         action="store_true",
-        help="Habilitar procesamiento paralelo (4 hilos). ⚠ Puede causar race conditions.",
+        help="Habilitar procesamiento paralelo (4 hilos).",
     )
     args = parser.parse_args()
 
-    print(f"Obteniendo releases de {args.owner}/{args.repo}...\n")
-    releases = fetch_all_releases(args.owner, args.repo, args.token)
-    print_releases(releases)
+    forks_data = load_forks_config(args.forks_file)
+    forks_dict = forks_data.get("forks", {})
 
-    if args.output:
-        save_json(releases, args.output)
-
-    # Determinar número de workers
     workers = args.threads
     if args.parallel and workers == 1:
         workers = 4
 
-    # Procesar releases y ejecutar update-manifest.php
-    process_releases(releases, skip_existing=not args.no_skip, max_workers=workers)
+    if args.software == "all":
+        for s_name, s_config in forks_dict.items():
+            process_software_releases(
+                software=s_name,
+                fork_config=s_config,
+                token=args.token,
+                skip_existing=not args.no_skip,
+                max_workers=workers,
+                output=args.output,
+            )
+    else:
+        if args.software in forks_dict:
+            s_config = forks_dict[args.software]
+        else:
+            if args.owner and args.repo:
+                s_config = {"name": args.software, "repo": f"{args.owner}/{args.repo}"}
+            else:
+                print(f"✗ Software '{args.software}' no encontrado en forks.json")
+                sys.exit(1)
+
+        if args.owner and args.repo:
+            s_config["repo"] = f"{args.owner}/{args.repo}"
+
+        process_software_releases(
+            software=args.software,
+            fork_config=s_config,
+            token=args.token,
+            skip_existing=not args.no_skip,
+            max_workers=workers,
+            output=args.output,
+        )

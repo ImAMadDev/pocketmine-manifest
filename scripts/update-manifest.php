@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 /**
- * PocketIDE — update-manifest.php
+ * Deepslate — update-manifest.php
  *
- * Descarga versión de PocketMine-MP, extrae build_info.json de GitHub,
- * calcula SHA256 y actualiza manifest.json automáticamente.
+ * Descarga versión de PocketMine-MP y forks (Axolotl-PM, Altay, etc.),
+ * extrae build_info.json de GitHub o deduce metadatos, calcula SHA256 y
+ * actualiza manifest.json automáticamente con soporte multi-software.
  */
 
-const PM_RELEASES = "https://github.com/pmmp/PocketMine-MP/releases";
-const PM_DOWNLOAD = "https://github.com/pmmp/PocketMine-MP/releases/download";
 const PHP_DOWNLOAD = "https://github.com/pmmp/PHP-Binaries/releases/download";
 const STUBS_DOWNLOAD = "https://github.com/ImAMadDev/pocketmine-stubs/releases/download";
 const MANIFEST_PATH = __DIR__ . "/../manifest.json";
+const FORKS_PATH = __DIR__ . "/../forks.json";
 const CHUNK_SIZE = 1024 * 1024;
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 2;
@@ -23,6 +23,7 @@ const COLOR_RESET = "\033[0m";
 const COLOR_RED = "\033[31m";
 const COLOR_GREEN = "\033[32m";
 const COLOR_YELLOW = "\033[33m";
+const COLOR_BLUE = "\033[34m";
 const COLOR_BOLD = "\033[1m";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -30,37 +31,63 @@ const COLOR_BOLD = "\033[1m";
 // ─────────────────────────────────────────────────────────────────────────────
 
 $args = parseArgs($argv);
+$software = $args["software"] ?? "pocketmine";
 $version = $args["version"] ?? null;
 $dryRun = isset($args["dry-run"]);
 $apiVersionOverride = $args["api-version"] ?? null;
 $mcVersionOverride = $args["mc-version"] ?? null;
-$force = isset($args["f"]);
+$phpVersionOverride = $args["min-php"] ?? $args["php-version"] ?? null;
+$phpTagOverride = $args["php-tag"] ?? null;
+$pharUrlOverride = $args["phar-url"] ?? null;
+$forksFile = $args["forks-file"] ?? FORKS_PATH;
+$force = isset($args["f"]) || isset($args["force"]);
 
-if (!$version || !preg_match('/^\d+\.\d+\.\d+$/', $version)) {
-    exitWithError("--version=X.Y.Z es requerido. Formato: semver (ej: 5.43.1)");
+if (!$version || !preg_match('/^\d+\.\d+\.\d+(-[a-zA-Z0-9.]+)?$/', $version)) {
+    exitWithError("--version=X.Y.Z es requerido. Formato: semver (ej: 5.44.3 o 5.44.0)");
 }
+
+$forksData = loadForksConfig($forksFile);
+$forkConfig = $forksData["forks"][$software] ?? null;
+
+if (!$forkConfig) {
+    $knownForks = implode(", ", array_keys($forksData["forks"] ?? []));
+    exitWithError("Software '{$software}' no encontrado en forks.json. Disponibles: {$knownForks}");
+}
+
+$softwareName = $forkConfig["name"] ?? $software;
+$softwareRepo = $forkConfig["repo"] ?? "";
+$pharName = $forkConfig["phar_name"] ?? "PocketMine-MP.phar";
+$tagPrefix = $forkConfig["tag_prefix"] ?? "";
+$stubsTagPrefix = $forkConfig["stubs_tag_prefix"] ?? $tagPrefix;
 
 $manifest = loadManifest();
+
+// Verificar si la combinación (software, version) ya existe
+$existingIndex = null;
 foreach ($manifest["versions"] as $key => $v) {
-    if (($v["id"] ?? null) === $version) {
-        if (!$force) {
-            exitWithError("Versión {$version} ya existe en manifest.json");
-        } else {
-            printf(
-                "  ⚠️  Saltando versión {$version} (ya existe, pero forzando)\n",
-            );
-            unset($manifest["versions"][$key]);
-        }
+    $entrySoftware = $v["software"] ?? "pocketmine";
+    if ($entrySoftware === $software && ($v["id"] ?? null) === $version) {
+        $existingIndex = $key;
+        break;
     }
 }
-$manifest["versions"] = array_values($manifest["versions"]);
+
+if ($existingIndex !== null) {
+    if (!$force) {
+        exitWithError("Versión {$version} para {$softwareName} ya existe en manifest.json (usa -f para forzar)");
+    } else {
+        printf("  ⚠️  Versión {$version} ({$softwareName}) ya existe, sobreescribiendo...\n");
+        unset($manifest["versions"][$existingIndex]);
+        $manifest["versions"] = array_values($manifest["versions"]);
+    }
+}
 
 printf(
     "\n%s════════════════════════════════════════════════════════════════════════════════%s\n",
     COLOR_BOLD,
     COLOR_RESET,
 );
-printf("PocketIDE — Agregar Versión %s\n", $version);
+printf("Deepslate — Agregar Versión %s (%s)\n", $version, $softwareName);
 printf(
     "%s════════════════════════════════════════════════════════════════════════════════%s\n\n",
     COLOR_BOLD,
@@ -68,29 +95,35 @@ printf(
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Paso 1: Obtener build_info.json de la versión
+// Paso 1: Obtener información del release / build_info.json
 // ─────────────────────────────────────────────────────────────────────────────
 
-printf("[1/4] Obteniendo información del PHAR desde GitHub...\n\n");
+printf("[1/4] Obteniendo información del release desde GitHub (%s)...\n\n", $softwareRepo);
 
-$build_info = fetchBuildInfo($version);
-if (!$build_info) {
-    exitWithError(
-        "No se encontró build_info.json para v{$version}. Verifica que la versión existe en GitHub.",
-    );
+$build_info = fetchBuildInfo($softwareRepo, $version);
+$releaseDetails = null;
+
+if (!$build_info && $softwareRepo) {
+    $releaseDetails = fetchReleaseDetails($softwareRepo, $version);
 }
 
-$php_version = $build_info["php_version"] ?? "8.2";
-$mcpe_version = $build_info["mcpe_version"] ?? "unknown";
-$stability =
-    $build_info["is_dev"] ?? false
-        ? "alpha"
-        : $build_info["channel"] ?? "stable";
+$php_version = $phpVersionOverride ?? $build_info["php_version"] ?? "8.2";
+$mcpe_version = $mcVersionOverride ?? $build_info["mcpe_version"] ?? ($releaseDetails["mc_version"] ?? "unknown");
+$stability = $build_info["is_dev"] ?? false
+    ? "alpha"
+    : ($build_info["channel"] ?? ($releaseDetails["stability"] ?? "stable"));
 $api_version = $apiVersionOverride ?? extractApiVersion($version);
-$mc_version = $mcVersionOverride ?? $mcpe_version;
+$mc_version = $mcpe_version;
 
-preg_match('#/tag/([^/]+)$#', $build_info["php_download_url"] ?? "", $m);
-$php_tag = $m[1] ?? "pm5-php-{$php_version}-latest";
+$php_tag = $phpTagOverride;
+if (!$php_tag) {
+    if (!empty($build_info["php_download_url"])) {
+        preg_match('#/tag/([^/]+)$#', $build_info["php_download_url"], $m);
+        $php_tag = $m[1] ?? "pm5-php-{$php_version}-latest";
+    } else {
+        $php_tag = "pm5-php-{$php_version}-latest";
+    }
+}
 
 if (!str_starts_with($php_tag, "pm5-")) {
     $php_tag = "pm5-" . $php_tag;
@@ -111,6 +144,7 @@ if (str_contains($php_tag, "-latest")) {
     }
 }
 
+printf("  ✓ Software:          %s (%s)\n", $softwareName, $software);
 printf("  ✓ Versión:           %s\n", $version);
 printf("  ✓ API version:       %s\n", $api_version);
 printf("  ✓ Minecraft:         %s\n", $mc_version);
@@ -129,9 +163,21 @@ $php_file_prefix = str_starts_with($php_tag, "pm5-")
     ? "PHP-{$php_version}"
     : "PHP";
 
-// Usar el tag resuelto para construir las URLs de PHP Binaries
+// Construir URL del PHAR
+$pharUrl = $pharUrlOverride;
+if (!$pharUrl) {
+    if (!empty($forkConfig["phar_url_template"])) {
+        $pharUrl = str_replace("{version}", $version, $forkConfig["phar_url_template"]);
+    } elseif (!empty($softwareRepo)) {
+        $pharUrl = "https://github.com/{$softwareRepo}/releases/download/{$version}/{$pharName}";
+    } else {
+        exitWithError("No se pudo determinar la URL del PHAR para {$software}");
+    }
+}
+
 $downloads = [
-    "pocketmine_phar" => PM_DOWNLOAD . "/{$version}/PocketMine-MP.phar",
+    "server_phar" => $pharUrl,
+    "pocketmine_phar" => $pharUrl,
     "php_windows_x64" =>
         PHP_DOWNLOAD . "/{$php_tag_resolved}/{$php_file_prefix}-Windows-x64-PM5.zip",
     "php_linux_x86_64" =>
@@ -144,34 +190,43 @@ $downloads = [
 
 // Extensiones esperadas y sus magic bytes para verificación
 $expectedMagic = [
-    "pocketmine_phar" => ["<?php", "__HALT"],   // PHAR files
-    "php_windows_x64" => ["PK"],                 // ZIP
-    "php_linux_x86_64" => ["\x1f\x8b"],          // GZIP
-    "php_macos_x86_64" => ["\x1f\x8b"],          // GZIP
-    "php_macos_arm64" => ["\x1f\x8b"],           // GZIP
+    "server_phar" => ["<?php", "__HALT"],
+    "pocketmine_phar" => ["<?php", "__HALT"],
+    "php_windows_x64" => ["PK"],
+    "php_linux_x86_64" => ["\x1f\x8b"],
+    "php_macos_x86_64" => ["\x1f\x8b"],
+    "php_macos_arm64" => ["\x1f\x8b"],
 ];
 
-$stubsUrl = STUBS_DOWNLOAD . "/{$version}/stubs-{$version}.zip";
+// Construir URL de stubs dinámicamente según tag prefix
+$stubsReleaseTag = !empty($stubsTagPrefix) ? "{$stubsTagPrefix}{$version}" : $version;
+$stubsZipFile = !empty($stubsTagPrefix) ? "stubs-{$stubsTagPrefix}{$version}.zip" : "stubs-{$version}.zip";
+$stubsUrl = STUBS_DOWNLOAD . "/{$stubsReleaseTag}/{$stubsZipFile}";
+
 $checksums = [];
 $tmpFiles = [];
 $stubsSha256 = "";
 
-// Descarga de Binarios y PHAR
+// Descargar PHAR y Binarios
 foreach ($downloads as $key => $url) {
+    if ($key === "pocketmine_phar" && isset($checksums["server_phar_sha256"])) {
+        $checksums["pocketmine_phar"] = $url;
+        $checksums["pocketmine_phar_sha256"] = $checksums["server_phar_sha256"];
+        continue;
+    }
+
     printf("  [↓] %-35s", $key);
     flush();
 
     if ($dryRun) {
         $checksums[$key] = $url;
-        // En dry-run genera un hash ficticio estético en vez de "NEEDS_SHA256_COMPUTE"
         $checksums[$key . "_sha256"] =
             "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
         printf(" (dry-run)\n");
     } else {
-        $tmpFile = sys_get_temp_dir() . "/pm_{$version}_" . basename($url);
+        $tmpFile = sys_get_temp_dir() . "/pm_{$software}_{$version}_" . basename($url);
 
         if (downloadWithRetries($url, $tmpFile, MAX_RETRIES)) {
-            // Verificar integridad del archivo descargado
             $magic = $expectedMagic[$key] ?? [];
             $integrityError = validateDownloadIntegrity($tmpFile, $magic);
 
@@ -179,7 +234,6 @@ foreach ($downloads as $key => $url) {
                 printf(" ⚠️  (%s, recalculando URL)\n", $integrityError);
                 @unlink($tmpFile);
 
-                // Si falla la validación, intentar resolver la URL real
                 $resolvedUrl = resolveRedirectUrl($url);
                 if ($resolvedUrl && $resolvedUrl !== $url) {
                     printf("    → Reintentando con URL resuelta...\n");
@@ -209,17 +263,20 @@ foreach ($downloads as $key => $url) {
     }
 }
 
+if (isset($checksums["server_phar_sha256"])) {
+    $checksums["pocketmine_phar"] = $downloads["pocketmine_phar"];
+    $checksums["pocketmine_phar_sha256"] = $checksums["server_phar_sha256"];
+}
+
 // Descarga y procesamiento de los Stubs
-printf("  [↓] %-35s", "pocketmine_stubs");
+printf("  [↓] %-35s", "stubs ({$stubsZipFile})");
 flush();
 
 if ($dryRun) {
-    // Hash simulado para el formato del dry-run
-    $stubsSha256 =
-        "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb";
+    $stubsSha256 = "57419a441873f9357b5bb6b29d184acbe070d9be3fc20830340c02938ea15deb";
     printf(" (dry-run)\n");
 } else {
-    $stubsTmpFile = sys_get_temp_dir() . "/stubs-{$version}.zip";
+    $stubsTmpFile = sys_get_temp_dir() . "/stubs-{$software}-{$version}.zip";
 
     if (downloadWithRetries($stubsUrl, $stubsTmpFile, MAX_RETRIES)) {
         $stubsSha256 = hash_file("sha256", $stubsTmpFile);
@@ -227,7 +284,7 @@ if ($dryRun) {
         printf(" ✓\n");
     } else {
         $stubsSha256 = "DOWNLOAD_FAILED";
-        printf(" ⚠️  (error al obtener stubs)\n");
+        printf(" ⚠️  (error al obtener stubs de %s)\n", $stubsUrl);
     }
 }
 
@@ -239,19 +296,20 @@ printf("\n");
 
 printf("[3/4] Creando entrada de versión...\n\n");
 
+$changelogUrl = $software === "pocketmine"
+    ? "https://github.com/{$softwareRepo}/releases/download/{$version}/changelogs/" . getMajorMinor($version) . ".md"
+    : "https://github.com/{$softwareRepo}/releases/tag/{$version}";
+
 $newEntry = [
     "id" => $version,
+    "software" => $software,
     "api_version" => $api_version,
     "release_date" => date("Y-m-d"),
     "stability" => $stability,
     "minecraft_version" => $mc_version,
     "min_php" => $php_version,
     "php_binary_tag" => $php_tag_resolved,
-    "changelog_url" =>
-        PM_DOWNLOAD .
-        "/{$version}/changelogs/" .
-        getMajorMinor($version) .
-        ".md",
+    "changelog_url" => $changelogUrl,
     "downloads" => $checksums,
     "stubs" => [
         "url" => $stubsUrl,
@@ -259,23 +317,32 @@ $newEntry = [
     ],
 ];
 
-array_unshift($manifest["versions"], $newEntry);
-$manifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
-
-printf("  ✓ Entrada creada\n\n");
-
 // ─────────────────────────────────────────────────────────────────────────────
-// Paso 4: Guardar o mostrar
+// Paso 4: Guardar en manifest.json
 // ─────────────────────────────────────────────────────────────────────────────
 
 printf("[4/4] Finalizando...\n\n");
 
+// Construir sección softwares para el root del manifest
+$manifestSoftwares = [];
+foreach ($forksData["forks"] as $fKey => $fVal) {
+    $manifestSoftwares[$fKey] = [
+        "name" => $fVal["name"] ?? $fKey,
+        "repo" => $fVal["repo"] ?? "",
+        "description" => $fVal["description"] ?? "",
+    ];
+}
+
+$manifest["manifest_version"] = 2;
+$manifest["softwares"] = $manifestSoftwares;
+
 if ($dryRun) {
-    $json =
-        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
-        "\n";
-    printf("  [DRY RUN] JSON resultante:\n\n");
-    echo $json;
+    array_unshift($manifest["versions"], $newEntry);
+    $manifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
+    $json = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
+    printf("  [DRY RUN] JSON resultante (primeras 50 líneas):\n\n");
+    $lines = explode("\n", $json);
+    echo implode("\n", array_slice($lines, 0, 50)) . "\n...\n";
 } else {
     $lockFile = fopen(MANIFEST_PATH, "r+");
     if (!$lockFile) {
@@ -287,26 +354,28 @@ if ($dryRun) {
     }
 
     $content = stream_get_contents($lockFile);
-    $manifest = json_decode($content, true);
-    if (!is_array($manifest)) {
-        $manifest = ["manifest_version" => 1, "versions" => []];
+    $currentManifest = json_decode($content, true);
+    if (!is_array($currentManifest)) {
+        $currentManifest = ["manifest_version" => 2, "softwares" => $manifestSoftwares, "versions" => []];
     }
+
+    $currentManifest["manifest_version"] = 2;
+    $currentManifest["softwares"] = $manifestSoftwares;
 
     // Remover versión existente si la hay (ya que estamos forzando)
-    foreach ($manifest["versions"] as $key => $v) {
-        if (($v["id"] ?? null) === $version) {
-            unset($manifest["versions"][$key]);
+    foreach ($currentManifest["versions"] as $key => $v) {
+        $entrySoftware = $v["software"] ?? "pocketmine";
+        if ($entrySoftware === $software && ($v["id"] ?? null) === $version) {
+            unset($currentManifest["versions"][$key]);
         }
     }
-    $manifest["versions"] = array_values($manifest["versions"]);
+    $currentManifest["versions"] = array_values($currentManifest["versions"]);
 
     // Agregar la nueva versión al principio
-    array_unshift($manifest["versions"], $newEntry);
-    $manifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
+    array_unshift($currentManifest["versions"], $newEntry);
+    $currentManifest["updated_at"] = gmdate("Y-m-d\TH:i:s\Z");
 
-    $json =
-        json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
-        "\n";
+    $json = json_encode($currentManifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
 
     ftruncate($lockFile, 0);
     rewind($lockFile);
@@ -320,7 +389,7 @@ if ($dryRun) {
     fclose($lockFile);
 
     printf("  ✓ manifest.json actualizado\n");
-    printf("  ✓ Versión %s agregada\n", $version);
+    printf("  ✓ Versión %s (%s) agregada\n", $version, $softwareName);
 
     foreach ($tmpFiles as $f) {
         @unlink($f);
@@ -337,8 +406,9 @@ if ($dryRun) {
     printf("DRY RUN - Sin cambios reales realizados\n");
 } else {
     printf(
-        "✅ Versión %s agregada correctamente con hashes reales\n",
+        "✅ Versión %s (%s) agregada correctamente con hashes reales\n",
         $version,
+        $softwareName,
     );
 }
 printf(
@@ -371,6 +441,9 @@ function parseArgs(array $argv): array
             } else {
                 $result[$arg] = true;
             }
+        } elseif (str_starts_with($arg, "-")) {
+            $arg = ltrim($arg, "-");
+            $result[$arg] = true;
         }
     }
     return $result;
@@ -385,14 +458,29 @@ function loadManifest(): array
     return is_array($data) ? $data : [];
 }
 
-function fetchBuildInfo(string $version): ?array
+function loadForksConfig(string $path): array
 {
-    // Obtener build_info.json desde el archivo del PHAR en GitHub
-    $url = PM_DOWNLOAD . "/{$version}/build_info.json";
+    if (!file_exists($path)) {
+        exitWithError("Archivo forks config no encontrado en {$path}");
+    }
+    $data = json_decode(file_get_contents($path), true);
+    if (!is_array($data) || !isset($data["forks"])) {
+        exitWithError("forks.json inválido: debe contener la clave 'forks'");
+    }
+    return $data;
+}
+
+function fetchBuildInfo(string $repo, string $version): ?array
+{
+    if (empty($repo)) {
+        return null;
+    }
+
+    $url = "https://github.com/{$repo}/releases/download/{$version}/build_info.json";
 
     $context = stream_context_create([
-        "http" => ["follow_location" => true, "timeout" => 30],
-        "https" => ["follow_location" => true, "timeout" => 30],
+        "http" => ["follow_location" => true, "timeout" => 15, "user_agent" => "deepslate/manifest"],
+        "https" => ["follow_location" => true, "timeout" => 15, "user_agent" => "deepslate/manifest"],
     ]);
 
     $content = @file_get_contents($url, false, $context);
@@ -404,6 +492,45 @@ function fetchBuildInfo(string $version): ?array
     return is_array($data) ? $data : null;
 }
 
+function fetchReleaseDetails(string $repo, string $version): array
+{
+    $result = [
+        "mc_version" => "unknown",
+        "stability" => "stable",
+    ];
+
+    $url = "https://api.github.com/repos/{$repo}/releases/tags/{$version}";
+
+    $context = stream_context_create([
+        "http" => [
+            "method" => "GET",
+            "header" => "User-Agent: deepslate-manifest\r\nAccept: application/vnd.github+json\r\n",
+            "timeout" => 15,
+        ],
+        "https" => [
+            "method" => "GET",
+            "header" => "User-Agent: deepslate-manifest\r\nAccept: application/vnd.github+json\r\n",
+            "timeout" => 15,
+        ],
+    ]);
+
+    $content = @file_get_contents($url, false, $context);
+    if ($content) {
+        $data = json_decode($content, true);
+        if (is_array($data)) {
+            $body = $data["body"] ?? "";
+            if (preg_match('/Bedrock[^\d]*(\d+\.\d+\.\d+)/i', $body, $bm)) {
+                $result["mc_version"] = $bm[1];
+            }
+            if (!empty($data["prerelease"])) {
+                $result["stability"] = "beta";
+            }
+        }
+    }
+
+    return $result;
+}
+
 function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
 {
     for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
@@ -412,13 +539,13 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
                 "method" => "GET",
                 "follow_location" => true,
                 "timeout" => 300,
-                "user_agent" => "pocketide/manifest",
+                "user_agent" => "deepslate/manifest",
             ],
             "https" => [
                 "method" => "GET",
                 "follow_location" => true,
                 "timeout" => 300,
-                "user_agent" => "pocketide/manifest",
+                "user_agent" => "deepslate/manifest",
             ],
         ]);
 
@@ -434,7 +561,6 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
             continue;
         }
 
-        // Obtener Content-Length del header para verificar completitud
         $meta = stream_get_meta_data($in);
         $expectedSize = null;
         foreach ($meta["wrapper_data"] ?? [] as $header) {
@@ -470,7 +596,6 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
             continue;
         }
 
-        // Verificar que descargamos todos los bytes esperados
         if ($expectedSize !== null && $bytesWritten !== $expectedSize) {
             fprintf(
                 STDERR,
@@ -493,36 +618,29 @@ function downloadWithRetries(string $url, string $dest, int $maxRetries): bool
     return false;
 }
 
-/**
- * Sigue los redirects de una URL para obtener la URL final.
- * Útil para resolver tags -latest de GitHub a URLs estables.
- */
 function resolveRedirectUrl(string $url): ?string
 {
     if (!function_exists('curl_init')) {
-        // Fallback sin cURL: usar stream wrappers
         $context = stream_context_create([
             "http" => [
                 "method" => "HEAD",
                 "follow_location" => true,
                 "timeout" => 15,
-                "user_agent" => "pocketide/manifest",
+                "user_agent" => "deepslate/manifest",
             ],
             "https" => [
                 "method" => "HEAD",
                 "follow_location" => true,
                 "timeout" => 15,
-                "user_agent" => "pocketide/manifest",
+                "user_agent" => "deepslate/manifest",
             ],
         ]);
 
-        // Intentar obtener la URL final a través de headers
         $headers = @get_headers($url, true, $context);
         if ($headers === false) {
             return null;
         }
 
-        // Buscar Location header (último redirect)
         $location = $headers["Location"] ?? null;
         if (is_array($location)) {
             return end($location) ?: null;
@@ -536,7 +654,7 @@ function resolveRedirectUrl(string $url): ?string
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 15,
-        CURLOPT_USERAGENT => "pocketide/manifest",
+        CURLOPT_USERAGENT => "deepslate/manifest",
         CURLOPT_RETURNTRANSFER => true,
     ]);
     curl_exec($ch);
@@ -551,13 +669,6 @@ function resolveRedirectUrl(string $url): ?string
     return null;
 }
 
-/**
- * Verifica la integridad de un archivo descargado:
- * - Tamaño mínimo (>1KB para evitar archivos vacíos o páginas HTML de error)
- * - Magic bytes para verificar que el formato es correcto
- *
- * Retorna null si OK, o un string describiendo el error.
- */
 function validateDownloadIntegrity(string $filePath, array $expectedMagicPatterns = []): ?string
 {
     if (!file_exists($filePath)) {
@@ -566,7 +677,6 @@ function validateDownloadIntegrity(string $filePath, array $expectedMagicPattern
 
     $size = filesize($filePath);
 
-    // Archivos demasiado pequeños probablemente son errores
     if ($size < 1024) {
         return "archivo muy pequeño ({$size} bytes)";
     }
@@ -575,21 +685,18 @@ function validateDownloadIntegrity(string $filePath, array $expectedMagicPattern
         return null;
     }
 
-    // Leer los primeros bytes para verificar magic bytes
     $header = file_get_contents($filePath, false, null, 0, 64);
     if ($header === false) {
         return "no se puede leer el header";
     }
 
-    // Verificar que el archivo no sea una página HTML de error
     if (str_contains($header, "<!DOCTYPE") || str_contains($header, "<html")) {
         return "contenido HTML detectado (posible página de error)";
     }
 
-    // Verificar magic bytes
     foreach ($expectedMagicPatterns as $magic) {
         if (str_contains($header, $magic)) {
-            return null; // Coincide con al menos un patrón
+            return null;
         }
     }
 
@@ -610,4 +717,3 @@ function getMajorMinor(string $version): string
     $parts = explode(".", $version);
     return $parts[0] . "." . $parts[1];
 }
-
